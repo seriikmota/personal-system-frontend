@@ -1,0 +1,21 @@
+mat-toolbar {
+  height: 72px;
+  background-color: var(--verde);
+  display: flex;
+  justify-content: space-between;
+  z-index: 100;
+  top: 0;
+  position: fixed;
+}
+
+button{
+  width: auto;
+  height: auto;
+}
+
+mat-icon{
+  font-size:45px;
+  width: auto;
+  height: auto;
+}
+

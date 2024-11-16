@@ -1,0 +1,19 @@
+<div class="div-list">
+  <section class="section-search">
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>Buscar Nome</mat-label>
+      <input matInput placeholder="João da Silva" [(ngModel)]="searchName">
+      <button matSuffix mat-icon-button (click)="clicarBotaoName()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>Buscar CPF</mat-label>
+      <input matInput placeholder="123.456.789-00" [(ngModel)]="searchCpf">
+      <button matSuffix mat-icon-button (click)="clicarBotaoCpf()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </section>
+  Buscar Nome
+</div>

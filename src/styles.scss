@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@use '../m3-theme' as my-theme;
+@include mat.core();
+
+html, body {
+  @include mat.all-component-themes(my-theme.$light-theme);
+
+}
+body {
+  margin: 0;
+  font-family: Gotham-Light, sans-serif;
+}
+
+:root {
+  /* Colors */
+  --verde: #00d778;
+  --cinza: #9da7b2;
+  --cinza-claro: #EEF1F4;
+  --azul: #03263c;
+  --branco: #ffffff;
+  --preto: #1d1d1d;
+
+  /* Box Shadow */
+  --box-shadow-default: 5px 5px 15px 0 rgba(0, 0, 0, 0.25);
+
+  /*Font Shadow*/
+  --text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+
+}

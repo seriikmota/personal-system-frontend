@@ -1,0 +1,15 @@
+.div-list {
+  margin: 25px;
+}
+
+.section-search{
+  display: flex;
+  margin: 25px;
+  gap: 25px;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+mat-form-field {
+  box-shadow: var(--box-shadow-default);
+}

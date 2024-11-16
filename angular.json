@@ -91,6 +91,7 @@
               }
             ],
             "styles": [
+              "m3-theme.scss",
               "src/styles.scss"
             ],
             "scripts": []
@@ -98,5 +99,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "aa0dbb07-080b-4189-8179-2f412a51b4f2"
   }
 }

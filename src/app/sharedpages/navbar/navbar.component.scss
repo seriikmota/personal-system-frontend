@@ -1,6 +1,6 @@
 mat-toolbar {
-  height: 72px;
-  background-color: var(--verde);
+  height: 60px;
+  background-color: var(--mdc-fab-container-color, var(--mat-app-primary-container));
   display: flex;
   justify-content: space-between;
   z-index: 100;
@@ -14,7 +14,7 @@ button{
 }
 
 mat-icon{
-  font-size:45px;
+  font-size:35px;
   width: auto;
   height: auto;
 }

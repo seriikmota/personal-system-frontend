@@ -2,14 +2,22 @@
   margin: 25px;
 }
 
-.section-search{
+.section-super-table {
   display: flex;
-  margin: 25px;
+  justify-content: space-between;
+
+}
+
+.div-search{
+  display: flex;
+  margin-bottom: 20px;
   gap: 25px;
   flex-direction: row;
   justify-content: flex-start;
 }
 
-mat-form-field {
+.form-search, .table-section {
   box-shadow: var(--box-shadow-default);
 }
+
+

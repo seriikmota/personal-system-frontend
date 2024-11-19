@@ -1,18 +1,18 @@
 <div class="div-list">
   <section class="section-super-table">
-    <button mat-fab color="primary" (click)="clicarBotaoNovo()"><mat-icon>add</mat-icon></button>
+    <button mat-fab color="primary" (click)="incluirPaciente()"><mat-icon>add</mat-icon></button>
     <div class="div-search">
       <mat-form-field subscriptSizing="dynamic" class="form-search">
         <mat-label>Buscar Nome</mat-label>
         <input matInput placeholder="João da Silva" [(ngModel)]="searchName">
-        <button matSuffix mat-icon-button (click)="clicarBotaoName()">
+        <button matSuffix mat-icon-button>
           <mat-icon>search</mat-icon>
         </button>
       </mat-form-field>
       <mat-form-field subscriptSizing="dynamic" class="form-search">
         <mat-label>Buscar CPF</mat-label>
         <input matInput placeholder="123.456.789-00" [(ngModel)]="searchCpf">
-        <button matSuffix mat-icon-button (click)="clicarBotaoCpf()">
+        <button matSuffix mat-icon-button>
           <mat-icon>search</mat-icon>
         </button>
       </mat-form-field>

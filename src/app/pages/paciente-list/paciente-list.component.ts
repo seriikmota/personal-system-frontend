@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, inject, ViewChild} from '@angular/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
-import {MatButton, MatFabButton, MatIconButton, MatMiniFabButton} from '@angular/material/button';
+import { MatFabButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {
   MatCell,
@@ -14,6 +14,8 @@ import {
 } from '@angular/material/table';
 import {MatSort, MatSortHeader} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
+import {MatDialog} from '@angular/material/dialog';
+import {PacienteFormComponent} from '../paciente-form/paciente-form.component';
 
 export interface PeriodicElement {
   name: string;
@@ -40,9 +42,10 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: 'paciente-list.component.html',
   styleUrls: ['paciente-list.component.scss'],
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatButton, MatIconButton, MatIcon, MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderRow, MatHeaderRowDef, MatPaginator, MatRow, MatRowDef, MatSort, MatSortHeader, MatTable, MatHeaderCellDef, MatFabButton, MatMiniFabButton],
+  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatIconButton, MatIcon, MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderRow, MatHeaderRowDef, MatPaginator, MatRow, MatRowDef, MatSort, MatSortHeader, MatTable, MatHeaderCellDef, MatFabButton],
 })
 export class PacienteListComponent implements AfterViewInit{
+  readonly dialog = inject(MatDialog);
   searchName: any;
   searchCpf: any;
   dataSource = new MatTableDataSource(ELEMENT_DATA);
@@ -51,20 +54,14 @@ export class PacienteListComponent implements AfterViewInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'actions'];
 
-  clicarBotaoName() {
-    console.log('Botão clicado: ', this.searchName);
-  }
-  clicarBotaoCpf() {
-    console.log('Botão clicado: ', this.searchCpf);
-  }
-
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
 
-  clicarBotaoNovo() {
-
+  incluirPaciente() {
+    const dialogRef = this.dialog.open(PacienteFormComponent);
+    dialogRef.afterClosed().subscribe(result => {console.log(`Dialog result: ${result}`);});
   }
 
   clicarBotaoEditar() {

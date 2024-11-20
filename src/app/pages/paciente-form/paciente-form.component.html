@@ -5,8 +5,12 @@
       <form [formGroup]="firstFormGroup">
         <ng-template matStepLabel>Identidade do Paciente</ng-template>
         <mat-form-field>
-          <mat-label>Nome</mat-label>
+          <mat-label>Nome Completo</mat-label>
           <input matInput placeholder="João da Silva" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>CPF</mat-label>
+          <input matInput placeholder="123.456.789-12" required>
         </mat-form-field>
       </form>
     </mat-step>

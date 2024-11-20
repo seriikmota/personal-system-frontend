@@ -38,11 +38,10 @@ const ELEMENT_DATA: PeriodicElement[] = [
 ];
 
 @Component({
-  selector: 'app-paciente-list',
-  templateUrl: 'paciente-list.component.html',
-  styleUrls: ['paciente-list.component.scss'],
-  standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatIconButton, MatIcon, MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderRow, MatHeaderRowDef, MatPaginator, MatRow, MatRowDef, MatSort, MatSortHeader, MatTable, MatHeaderCellDef, MatFabButton],
+    selector: 'app-paciente-list',
+    templateUrl: 'paciente-list.component.html',
+    styleUrls: ['paciente-list.component.scss'],
+    imports: [MatFormFieldModule, MatInputModule, FormsModule, MatIconButton, MatIcon, MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderRow, MatHeaderRowDef, MatPaginator, MatRow, MatRowDef, MatSort, MatSortHeader, MatTable, MatHeaderCellDef, MatFabButton]
 })
 export class PacienteListComponent implements AfterViewInit{
   readonly dialog = inject(MatDialog);

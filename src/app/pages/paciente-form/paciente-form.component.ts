@@ -1,5 +1,5 @@
 import {Component, inject} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {
   MatDialogActions,
   MatDialogClose,
@@ -41,32 +41,8 @@ export class PacienteFormComponent {
   private _formBuilder = inject(FormBuilder);
 
   firstFormGroup = this._formBuilder.group({
-    firstCtrl: ['', Validators.required],
   });
   secondFormGroup = this._formBuilder.group({
-    secondCtrl: ['', Validators.required],
   });
 
-
-  primeiraEtapaForm = new FormGroup({
-    nome: new FormControl('', Validators.required),
-    cpf: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{11}$')]),
-    dataNascimento: new FormControl('', Validators.required),
-    sexo: new FormControl('', Validators.required),
-    estadoCivil: new FormControl('', Validators.required),
-    email: new FormControl('', Validators.email),
-    telefone: new FormControl('', Validators.required),
-    telefoneEmergencia: new FormControl('', Validators.required),
-    profissao: new FormControl('', Validators.required),
-  });
-
-  segundaEtapaForm = new FormGroup({
-    cep: new FormControl('', Validators.required),
-    rua: new FormControl('', Validators.required),
-    numero: new FormControl('', Validators.required),
-    bairro: new FormControl('', Validators.required),
-    cidade: new FormControl('', Validators.required),
-    estado: new FormControl('', Validators.required),
-    complemento: new FormControl(''),
-  });
 }

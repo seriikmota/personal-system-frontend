@@ -10,6 +10,7 @@ import {MatButton} from '@angular/material/button';
 import {MatStep, MatStepLabel, MatStepper, MatStepperNext, MatStepperPrevious} from '@angular/material/stepper';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
+import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 
 @Component({
   selector: 'app-paciente-form',
@@ -25,11 +26,14 @@ import {MatInput} from '@angular/material/input';
     MatFormField,
     MatStepper,
     MatInput,
-    MatStepperNext,
     MatStepLabel,
     MatStepperPrevious,
     MatLabel
   ],
+  providers: [{
+    provide: STEPPER_GLOBAL_OPTIONS,
+    useValue: {showError: true}
+  }],
   templateUrl: './paciente-form.component.html',
   styleUrl: './paciente-form.component.scss'
 })

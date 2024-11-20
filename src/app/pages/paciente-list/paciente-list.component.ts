@@ -60,8 +60,15 @@ export class PacienteListComponent implements AfterViewInit{
   }
 
   incluirPaciente() {
-    const dialogRef = this.dialog.open(PacienteFormComponent);
-    dialogRef.afterClosed().subscribe(result => {console.log(`Dialog result: ${result}`);});
+    const dialogRef = this.dialog.open(PacienteFormComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '80%',
+      width: '80%'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
   clicarBotaoEditar() {

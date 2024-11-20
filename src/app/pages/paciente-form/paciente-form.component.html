@@ -1,36 +1,26 @@
 <h2 mat-dialog-title>Install Angular</h2>
 <mat-dialog-content>
   <mat-stepper #stepper>
-    <mat-step [stepControl]="firstFormGroup" errorMessage="Name is required.">
+    <mat-step [stepControl]="firstFormGroup" errorMessage="Dados da identidade são obrigatórios.">
       <form [formGroup]="firstFormGroup">
-        <ng-template matStepLabel>Fill out your name</ng-template>
+        <ng-template matStepLabel>Identidade do Paciente</ng-template>
         <mat-form-field>
-          <mat-label>Name</mat-label>
-          <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+          <mat-label>Nome</mat-label>
+          <input matInput placeholder="João da Silva" formControlName="1" required>
         </mat-form-field>
-        <div>
-          <p>Go to a different step to see the error state</p>
-          <button mat-button matStepperNext>Next</button>
-        </div>
       </form>
     </mat-step>
-    <mat-step [stepControl]="secondFormGroup" errorMessage="Address is required.">
+    <mat-step [stepControl]="secondFormGroup" errorMessage="Dados do endereço são obrigatórios.">
       <form [formGroup]="secondFormGroup">
-        <ng-template matStepLabel>Fill out your address</ng-template>
+        <ng-template matStepLabel>Endereço do Paciente</ng-template>
         <mat-form-field>
-          <mat-label>Address</mat-label>
-          <input matInput placeholder="Ex. 1 Main St, New York, NY" formControlName="secondCtrl"
-                 required>
+          <mat-label>Rua</mat-label>
+          <input matInput placeholder="Rua VP-03" formControlName="2" required>
         </mat-form-field>
-        <div>
-          <p>Go to a different step to see the error state</p>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </div>
       </form>
     </mat-step>
     <mat-step>
-      <ng-template matStepLabel>Done</ng-template>
+      <ng-template matStepLabel>Finalizar</ng-template>
       <p>You are now done.</p>
       <div>
         <button mat-button matStepperPrevious>Back</button>

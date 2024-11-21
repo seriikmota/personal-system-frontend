@@ -62,7 +62,7 @@ export class PacienteListComponent implements AfterViewInit{
     const dialogRef = this.dialog.open(PacienteFormComponent, {
       maxWidth: '100vw',
       maxHeight: '100vh',
-      height: '80%',
+      height: '75%',
       width: '80%'
     });
     dialogRef.afterClosed().subscribe(result => {

@@ -1,45 +1,125 @@
-<h2 mat-dialog-title>Install Angular</h2>
+<h2 mat-dialog-title>Cadastrar Paciente</h2>
 <mat-dialog-content>
   <mat-stepper #stepper>
     <mat-step [stepControl]="firstFormGroup" errorMessage="Dados da identidade são obrigatórios.">
-      <form [formGroup]="firstFormGroup">
-        <ng-template matStepLabel>Identidade do Paciente</ng-template>
-        <mat-form-field>
-          <mat-label>Nome Completo</mat-label>
-          <input matInput placeholder="João da Silva" required>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>CPF</mat-label>
-          <input matInput placeholder="123.456.789-12" required>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Choose a date</mat-label>
-          <input matInput [matDatepicker]="picker">
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      </form>
+      <section class="form-container">
+        <form [formGroup]="firstFormGroup" class="form-group">
+          <ng-template matStepLabel>Identidade do Paciente</ng-template>
+          <!-- Aqui é o primeiro passo do stepper, onde o usuário irá preencher os dados do paciente.
+          Está separado de três em três no design -->
+          <div class="form-row">
+            <mat-form-field>
+              <mat-label>Nome Completo</mat-label>
+              <input matInput formControlName="nome" placeholder="João da Silva" required>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>CPF</mat-label>
+              <input matInput formControlName="cpf" placeholder="123.456.789-12" required>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Data de Nascimento</mat-label>
+              <input matInput formControlName="dataDeNascimento" [matDatepicker]="picker">
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field>
+              <mat-label>Sexo</mat-label>
+              <mat-select formControlName="sexo" required>
+                <mat-option value="masculino">Masculino</mat-option>
+                <mat-option value="feminino">Feminino</mat-option>
+                <mat-option value="outros">Outros</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Estado Civil</mat-label>
+              <mat-select formControlName="estadoCivil" required>
+                <mat-option value="solteiro">Solteiro</mat-option>
+                <mat-option value="casado">Casado</mat-option>
+                <mat-option value="separado">Separado</mat-option>
+                <mat-option value="divorciado">Divorciado</mat-option>
+                <mat-option value="viuvo">Viúvo</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" placeholder="aluno@gmail.com" required>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field>
+              <mat-label>Profissão</mat-label>
+              <input formControlName="profissao" matInput placeholder="Professor" required>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Telefone</mat-label>
+              <input matInput formControlName="telefone" placeholder="(61) 99999-9999" required>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Contato de Emergência</mat-label>
+              <input matInput formControlName="contatoDeEmergencia" placeholder="(61) 99999-9999" required>
+            </mat-form-field>
+          </div>
+          <div>
+            <button mat-button matDialogClose>Cancelar</button>
+            <button mat-button matStepperNext>Próximo</button>
+          </div>
+        </form>
+      </section>
     </mat-step>
+
+
     <mat-step [stepControl]="secondFormGroup" errorMessage="Dados do endereço são obrigatórios.">
-      <form [formGroup]="secondFormGroup">
-        <ng-template matStepLabel>Endereço do Paciente</ng-template>
-        <mat-form-field>
-          <mat-label>Rua</mat-label>
-          <input matInput placeholder="Rua VP-03" required>
-        </mat-form-field>
-      </form>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Finalizar</ng-template>
-      <p>You are now done.</p>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="stepper.reset()">Reset</button>
-      </div>
+      <section class="form-container">
+        <form [formGroup]="secondFormGroup" class="form-group">
+          <ng-template matStepLabel>Endereço do Paciente</ng-template>
+          <!-- Aqui é o segundo passo do stepper, onde o usuário irá preencher os dados de endereço.
+          Está separado de três em três no design -->
+          <div class="form-row">
+            <mat-form-field>
+              <mat-label>CEP</mat-label>
+              <input matInput formControlName="cep" placeholder="00100101" required>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Rua</mat-label>
+              <input matInput formControlName="rua" placeholder="Rua VP-03" required>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Bairro</mat-label>
+              <input matInput formControlName="bairro" placeholder="Bairro das Rosas" required>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field>
+              <mat-label>Cidade</mat-label>
+              <input matInput formControlName="cidade" placeholder="Anápolis" required>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Estado</mat-label>
+              <input matInput formControlName="estado" placeholder="Goiás" required>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Número</mat-label>
+              <input matInput formControlName="numero" placeholder="404">
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field>
+              <mat-label>Complemento</mat-label>
+              <textarea matInput placeholder="Quadra 02, lote 01, apartamento 401" required></textarea>
+            </mat-form-field>
+          </div>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Finalizar</button>
+          </div>
+        </form>
+      </section>
     </mat-step>
   </mat-stepper>
 </mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
-</mat-dialog-actions>

@@ -1,18 +1,19 @@
-import {Component, inject} from '@angular/core';
-import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
+import {Component, inject, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {
-  MatDialogActions,
   MatDialogClose,
   MatDialogContent,
   MatDialogTitle
 } from '@angular/material/dialog';
 import {MatButton} from '@angular/material/button';
-import {MatStep, MatStepLabel, MatStepper, MatStepperPrevious} from '@angular/material/stepper';
+import {MatStep, MatStepLabel, MatStepper, MatStepperNext, MatStepperPrevious} from '@angular/material/stepper';
 import {MatFormField, MatFormFieldModule, MatLabel, MatSuffix} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
-import {MAT_DATE_LOCALE, provideNativeDateAdapter} from '@angular/material/core';
+import {MAT_DATE_LOCALE, MatOption, provideNativeDateAdapter} from '@angular/material/core';
+import {MatSelect} from '@angular/material/select';
+import {ViaCepService} from '../../services/via-cep.service';
 
 @Component({
     selector: 'app-paciente-form',
@@ -20,7 +21,6 @@ import {MAT_DATE_LOCALE, provideNativeDateAdapter} from '@angular/material/core'
     ReactiveFormsModule,
     MatDialogContent,
     MatDialogTitle,
-    MatDialogActions,
     MatButton,
     MatDialogClose,
     MatStep,
@@ -34,7 +34,10 @@ import {MAT_DATE_LOCALE, provideNativeDateAdapter} from '@angular/material/core'
     MatDatepicker,
     MatDatepickerToggle,
     MatDatepickerInput,
-    MatSuffix
+    MatSuffix,
+    MatSelect,
+    MatOption,
+    MatStepperNext
   ],
     providers: [
       {
@@ -47,13 +50,61 @@ import {MAT_DATE_LOCALE, provideNativeDateAdapter} from '@angular/material/core'
     templateUrl: './paciente-form.component.html',
     styleUrl: './paciente-form.component.scss'
 })
-export class PacienteFormComponent {
+export class PacienteFormComponent implements OnInit{
 
+  firstFormGroup!: FormGroup;
+  secondFormGroup!: FormGroup;
+
+  private _viaCepService = inject(ViaCepService);
   private _formBuilder = inject(FormBuilder);
 
-  firstFormGroup = this._formBuilder.group({
-  });
-  secondFormGroup = this._formBuilder.group({
-  });
+  ngOnInit() {
+    this.firstFormGroup = this._formBuilder.group({
+      nome: ['', [Validators.required]],
+      cpf: ['', [Validators.required]],
+      dataDeNascimento: [{value:'' , disabled: true}, [Validators.required]],
+      sexo: ['', [Validators.required]],
+      estadoCivil: ['', [Validators.required]],
+      email: ['', [Validators.required]],
+      profissao: ['', [Validators.required]],
+      telefone: ['', [Validators.required]],
+      contatoDeEmergencia: ['', [Validators.required]],
+    });
+    this.secondFormGroup = this._formBuilder.group({
+      cep: ['', [Validators.required]],
+      rua: ['', [Validators.required]],
+      bairro: ['', [Validators.required]],
+      cidade: ['', [Validators.required]],
+      estado: ['', [Validators.required]],
+      numero: ['', [Validators.required]],
+      complemento: ['', [Validators.required]],
+    });
 
+    this.observePreenchimentoCep()
+  }
+
+  observePreenchimentoCep() {
+    this.secondFormGroup.get('cep')?.valueChanges.subscribe(value=> {
+      if(value?.length == 8) {
+        this.buscarCep();
+      }
+    })
+  }
+
+  buscarCep() {
+    let cep = this.secondFormGroup.get('cep')?.value;
+    this._viaCepService.getEndereco(cep).subscribe({
+      next: (response) => {
+        this.secondFormGroup.patchValue({
+          rua: response.logradouro,
+          bairro: response.bairro,
+          cidade: response.localidade,
+          estado: response.uf
+        });
+      },
+      error: () => {
+        console.log('Erro ao buscar CEP');
+      }
+    });
+  }
 }

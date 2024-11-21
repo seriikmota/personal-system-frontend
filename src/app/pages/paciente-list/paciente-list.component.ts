@@ -51,7 +51,7 @@ export class PacienteListComponent implements AfterViewInit{
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'actions'];
+  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'situation', 'actions'];
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;

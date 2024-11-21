@@ -14,6 +14,8 @@ import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/m
 import {MAT_DATE_LOCALE, MatOption, provideNativeDateAdapter} from '@angular/material/core';
 import {MatSelect} from '@angular/material/select';
 import {ViaCepService} from '../../services/via-cep.service';
+import {MatProgressBar} from '@angular/material/progress-bar';
+import {NgIf} from '@angular/common';
 
 @Component({
     selector: 'app-paciente-form',
@@ -37,7 +39,9 @@ import {ViaCepService} from '../../services/via-cep.service';
     MatSuffix,
     MatSelect,
     MatOption,
-    MatStepperNext
+    MatStepperNext,
+    MatProgressBar,
+    NgIf
   ],
     providers: [
       {
@@ -54,15 +58,23 @@ export class PacienteFormComponent implements OnInit{
 
   firstFormGroup!: FormGroup;
   secondFormGroup!: FormGroup;
+  isLoading: boolean = false;
 
   private _viaCepService = inject(ViaCepService);
   private _formBuilder = inject(FormBuilder);
+
+  incluirPaciente(){
+    console.log('Botão Clicado');
+  }
+
+
+
 
   ngOnInit() {
     this.firstFormGroup = this._formBuilder.group({
       nome: ['', [Validators.required]],
       cpf: ['', [Validators.required]],
-      dataDeNascimento: [{value:'' , disabled: true}, [Validators.required]],
+      dataDeNascimento: ['', [Validators.required]],
       sexo: ['', [Validators.required]],
       estadoCivil: ['', [Validators.required]],
       email: ['', [Validators.required]],
@@ -76,8 +88,8 @@ export class PacienteFormComponent implements OnInit{
       bairro: ['', [Validators.required]],
       cidade: ['', [Validators.required]],
       estado: ['', [Validators.required]],
-      numero: ['', [Validators.required]],
-      complemento: ['', [Validators.required]],
+      numero: [''],
+      complemento: [''],
     });
 
     this.observePreenchimentoCep()
@@ -93,6 +105,7 @@ export class PacienteFormComponent implements OnInit{
 
   buscarCep() {
     let cep = this.secondFormGroup.get('cep')?.value;
+    this.isLoading = true;
     this._viaCepService.getEndereco(cep).subscribe({
       next: (response) => {
         this.secondFormGroup.patchValue({
@@ -101,9 +114,11 @@ export class PacienteFormComponent implements OnInit{
           cidade: response.localidade,
           estado: response.uf
         });
+        this.isLoading = false;
       },
       error: () => {
         console.log('Erro ao buscar CEP');
+        this.isLoading = false;
       }
     });
   }

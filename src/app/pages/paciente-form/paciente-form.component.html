@@ -63,7 +63,7 @@
               <input matInput formControlName="contatoDeEmergencia" placeholder="(61) 99999-9999" required>
             </mat-form-field>
           </div>
-          <div>
+          <div class="form-buttons">
             <button mat-button matDialogClose>Cancelar</button>
             <button mat-button matStepperNext>Próximo</button>
           </div>
@@ -78,6 +78,8 @@
           <ng-template matStepLabel>Endereço do Paciente</ng-template>
           <!-- Aqui é o segundo passo do stepper, onde o usuário irá preencher os dados de endereço.
           Está separado de três em três no design -->
+          <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+
           <div class="form-row">
             <mat-form-field>
               <mat-label>CEP</mat-label>
@@ -111,12 +113,12 @@
           <div class="form-row">
             <mat-form-field>
               <mat-label>Complemento</mat-label>
-              <textarea matInput placeholder="Quadra 02, lote 01, apartamento 401" required></textarea>
+              <textarea matInput placeholder="Quadra 02, lote 01, apartamento 401"></textarea>
             </mat-form-field>
           </div>
-          <div>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Finalizar</button>
+          <div class="form-buttons">
+            <button mat-button matStepperPrevious>Voltar</button>
+            <button mat-button [mat-dialog-close]="true" (click)="incluirPaciente()">Finalizar</button>
           </div>
         </form>
       </section>

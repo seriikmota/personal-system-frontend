@@ -1,6 +1,6 @@
 mat-toolbar {
   height: 60px;
-  background-color: var(--mdc-fab-container-color, var(--mat-app-primary-container));
+  background: linear-gradient(to right, var(--mdc-fab-container-color, var(--mat-app-primary-container)), #03263C);
   display: flex;
   justify-content: space-between;
   z-index: 100;
@@ -17,5 +17,9 @@ mat-icon{
   font-size:35px;
   width: auto;
   height: auto;
+}
+
+.person-icon {
+  color: #faf9f9;
 }
 

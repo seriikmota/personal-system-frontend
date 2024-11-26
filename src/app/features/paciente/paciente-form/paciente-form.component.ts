@@ -13,7 +13,7 @@ import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
 import {MAT_DATE_LOCALE, MatOption, provideNativeDateAdapter} from '@angular/material/core';
 import {MatSelect} from '@angular/material/select';
-import {ViaCepService} from '../../services/via-cep.service';
+import {ViaCepService} from '../../../services/via-cep.service';
 import {MatProgressBar} from '@angular/material/progress-bar';
 import {NgIf} from '@angular/common';
 

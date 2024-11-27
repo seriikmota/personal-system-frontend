@@ -4,4 +4,5 @@ import {LoginFormComponent} from './features/login/login-form/login-form.compone
 export const routes: Routes = [
   {path:'login', component: LoginFormComponent},
   {path:'pacienteList', component: PacienteListComponent},
+  {path: '', redirectTo: '/login', pathMatch: 'full'}
 ];

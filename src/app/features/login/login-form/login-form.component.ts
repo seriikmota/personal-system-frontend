@@ -7,9 +7,10 @@ import {MatInput} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {provideNativeDateAdapter} from '@angular/material/core';
-import {AuthenticationService} from '../../../services/authentication.service';
-import {CredencialDto} from '../../../models/credencial-dto';
-import {User} from '../../../models/user';
+import {CredentialDTO} from '../../../models/CredentialDTO';
+import {Router} from '@angular/router';
+import {LoginService} from '../login.service';
+import {SecurityService} from '../../../authentication/security/security.service';
 
 @Component({
   selector: 'app-login-form',
@@ -30,7 +31,7 @@ import {User} from '../../../models/user';
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: { showError: true }
+      useValue: {showError: true}
     },
     [provideNativeDateAdapter()],
   ],
@@ -38,31 +39,25 @@ import {User} from '../../../models/user';
   styleUrl: './login-form.component.scss'
 })
 export class LoginFormComponent implements OnInit{
+  private _formBuilder = inject(FormBuilder);
+  private _service = inject(LoginService);
+  private _securityService = inject(SecurityService);
+  private _router = inject(Router);
 
   loginForm!: FormGroup;
-  private _formBuilder = inject(FormBuilder);
-  private _authenticationService = inject(AuthenticationService);
-  private _securityService = inject(SecurityService);
 
   ngOnInit() {
     this.loginForm = this._formBuilder.group({
       login: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
-      senha: [null, Validators.required],
+      password: [null, Validators.required],
     });
   }
 
   login() {
     if (this.loginForm.valid) {
-      this._authenticationService.login(this.loginForm.value).subscribe((data: CredencialDto) => {
-        const user: User = {
-          id: data.id,
-          name: data.name,
-          login: data.login,
-          expiresIn: data.expiresIn,
-          accessToken: data.accessToken,
-          refreshToken: data.refreshToken,
-        };
-        this.securityService.init(user);
+      this._service.login(this.loginForm.value).subscribe((credential: CredentialDTO) => {
+        this._securityService.init(credential);
+        this._router.navigate(['/pacienteList']);
       });
     }
   }

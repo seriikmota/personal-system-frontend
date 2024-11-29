@@ -1,7 +1,7 @@
 <div class="page-container">
   <mat-card class="example-card" appearance="raised">
     <mat-card-header>
-      <img ngSrc="logo-sf.png" alt="logo" width="300" height="90" priority>
+      <img ngSrc="assets/logo-sf.png" alt="logo" width="300" height="87" priority>
     </mat-card-header>
     <div class="line"></div>
     <mat-card-title class="card-title">LOGIN</mat-card-title>
@@ -9,9 +9,9 @@
     <mat-card-content class="card-form">
       <form [formGroup]="loginForm" (ngSubmit)="login()">
         <mat-form-field class="form-login">
-          <mat-label >Usuário</mat-label>
-          <input matInput formControlName="login" autocomplete="off"
-                 placeholder="Usuário" maxlength="20">
+          <mat-label >Login do Usuário</mat-label>
+          <input matInput formControlName="login" autocomplete="auto"
+                 placeholder="Login ou email" maxlength="20">
           <mat-error *ngIf="handleError('login', 'required')">
             Campo obrigatório!
           </mat-error>
@@ -21,8 +21,7 @@
         </mat-form-field>
         <mat-form-field class="form-login">
           <mat-label>Senha</mat-label>
-          <input matInput formControlName="password" type="password" title="Senha"
-                 placeholder="Senha" >
+          <input matInput formControlName="password" type="password" title="Senha" placeholder="Senha" autocomplete="auto">
           <mat-error *ngIf="handleError('password', 'required')">
             Campo obrigatório!
           </mat-error>

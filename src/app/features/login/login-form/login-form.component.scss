@@ -36,6 +36,11 @@
   flex-direction: column;
   gap: 20px;
   width: 100%;
+
+  mat-error {
+    margin-left: -15px;
+    margin-top: -20px;
+  }
 }
 
 .form-login{

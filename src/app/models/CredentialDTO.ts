@@ -1,4 +1,4 @@
-export interface CredencialDto {
+export interface CredentialDTO {
   id: number;
   name: string;
   login: string;
@@ -8,5 +8,5 @@ export interface CredencialDto {
   expiresIn: number;
   refreshToken: string;
   refreshExpiresIn: number;
-  statusAtivo: boolean;
+  status: boolean;
 }

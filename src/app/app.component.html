@@ -1,6 +1,6 @@
-<ng-container *ngIf="!isLoginPage()">
+<ng-container *ngIf="showBars">
   <app-navbar></app-navbar>
   <app-sidenav></app-sidenav>
 </ng-container>
 
-<router-outlet *ngIf="isLoginPage()"></router-outlet>
+<router-outlet *ngIf="!showBars"></router-outlet>

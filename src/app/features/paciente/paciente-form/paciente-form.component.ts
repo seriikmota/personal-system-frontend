@@ -1,8 +1,9 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, Inject, inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {
+  MAT_DIALOG_DATA,
   MatDialogClose,
-  MatDialogContent,
+  MatDialogContent, MatDialogRef,
   MatDialogTitle
 } from '@angular/material/dialog';
 import {MatButton} from '@angular/material/button';
@@ -16,6 +17,7 @@ import {MatSelect} from '@angular/material/select';
 import {ViaCepService} from '../../../services/via-cep.service';
 import {MatProgressBar} from '@angular/material/progress-bar';
 import {NgIf} from '@angular/common';
+import {PacienteService} from '../paciente.service';
 
 @Component({
     selector: 'app-paciente-form',
@@ -58,41 +60,57 @@ export class PacienteFormComponent implements OnInit{
 
   firstFormGroup!: FormGroup;
   secondFormGroup!: FormGroup;
+  thirdFormGroup!: FormGroup;
   isLoading: boolean = false;
 
   private _viaCepService = inject(ViaCepService);
   private _formBuilder = inject(FormBuilder);
+  private _pacienteService = inject(PacienteService);
+  private _dialogRef = inject(MatDialogRef<PacienteFormComponent>);
 
-  incluirPaciente(){
-    console.log('Botão Clicado');
-  }
-
-
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
 
 
   ngOnInit() {
     this.firstFormGroup = this._formBuilder.group({
-      nome: ['', [Validators.required]],
-      cpf: ['', [Validators.required]],
-      dataDeNascimento: ['', [Validators.required]],
-      sexo: ['', [Validators.required]],
-      estadoCivil: ['', [Validators.required]],
-      email: ['', [Validators.required]],
-      profissao: ['', [Validators.required]],
-      telefone: ['', [Validators.required]],
-      contatoDeEmergencia: ['', [Validators.required]],
+      name: [this.data?.name || '', [Validators.required]],
+      cpf: [this.data?.cpf || '', [Validators.required]],
+      birthDate: [this.data?.birthDate || '', [Validators.required]],
+      gender: [this.data?.gender || '', [Validators.required]],
+      maritalStatus: [this.data?.maritalStatus || '', [Validators.required]],
+      email: [this.data?.email || '', [Validators.required]],
+      profession: [this.data?.profession || '', [Validators.required]],
+      phoneNumber: [this.data?.phoneNumber || '', [Validators.required]],
+      emergencyNumber: [this.data?.emergencyNumber || '', [Validators.required]],
     });
     this.secondFormGroup = this._formBuilder.group({
-      cep: ['', [Validators.required]],
-      rua: ['', [Validators.required]],
-      bairro: ['', [Validators.required]],
-      cidade: ['', [Validators.required]],
-      estado: ['', [Validators.required]],
-      numero: [''],
-      complemento: [''],
+      cep: [this.data?.cep || '', [Validators.required]],
+      street: [this.data?.street || '', [Validators.required]],
+      neighborhood: [this.data?.neighborhood || '', [Validators.required]],
+      city: [this.data?.city || '', [Validators.required]],
+      state: [this.data?.state || '', [Validators.required]],
+      number: [this.data?.number || ''],
+      complement: [this.data?.complement || ''],
+    });
+    this.thirdFormGroup = this._formBuilder.group({
+      hasHealthPlan: [this.data?.hasHealthPlan || false, [Validators.required]],
+      healthPlan: [this.data?.healthPlan || ''],
+      enabled: [this.data?.active || true, [Validators.required]],
+      valueForHour: [this.data?.valueForHour || '', [Validators.required]]
     });
 
-    this.observePreenchimentoCep()
+    this.observePreenchimentoCep();
+    this.observeHealthPlan();
+  }
+
+  observeHealthPlan() {
+    this.thirdFormGroup.get('hasHealthPlan')?.valueChanges.subscribe(value => {
+      if (!value) {
+        this.thirdFormGroup.get('healthPlan')?.setValue('Não possui');
+      } else {
+        this.thirdFormGroup.get('healthPlan')?.setValue('');
+      }
+    });
   }
 
   observePreenchimentoCep() {
@@ -122,4 +140,31 @@ export class PacienteFormComponent implements OnInit{
       }
     });
   }
+
+  incluirPaciente() {
+    const address = {
+      ...this.secondFormGroup.value
+    }
+    const paciente = {
+      ...this.firstFormGroup.value,
+      ...this.secondFormGroup.value,
+      address
+    };
+
+    if (!paciente.hasHealthPlan) {
+      delete paciente.healthPlan;
+      delete paciente.hasHealthPlan;
+    }
+
+    this._pacienteService.incluirPaciente(paciente).subscribe({
+      next: () => {
+        console.log('Paciente criado com sucesso');
+        this._dialogRef.close(true);
+      },
+      error: (err) => {
+        console.error('Erro ao criar paciente', err);
+      }
+    });
+  }
+
 }

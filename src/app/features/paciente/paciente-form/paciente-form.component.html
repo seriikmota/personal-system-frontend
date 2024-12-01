@@ -10,7 +10,7 @@
           <div class="form-row">
             <mat-form-field>
               <mat-label>Nome Completo</mat-label>
-              <input matInput formControlName="nome" placeholder="João da Silva" required>
+              <input matInput formControlName="name" placeholder="João da Silva" required>
             </mat-form-field>
             <mat-form-field>
               <mat-label>CPF</mat-label>
@@ -18,7 +18,7 @@
             </mat-form-field>
             <mat-form-field>
               <mat-label>Data de Nascimento</mat-label>
-              <input matInput formControlName="dataDeNascimento" [matDatepicker]="picker">
+              <input matInput formControlName="birthDate" [matDatepicker]="picker">
               <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker disabled="false"></mat-datepicker>
             </mat-form-field>
@@ -27,7 +27,7 @@
           <div class="form-row">
             <mat-form-field>
               <mat-label>Sexo</mat-label>
-              <mat-select formControlName="sexo" required>
+              <mat-select formControlName="gender" required>
                 <mat-option value="masculino">Masculino</mat-option>
                 <mat-option value="feminino">Feminino</mat-option>
                 <mat-option value="outros">Outros</mat-option>
@@ -35,7 +35,7 @@
             </mat-form-field>
             <mat-form-field>
               <mat-label>Estado Civil</mat-label>
-              <mat-select formControlName="estadoCivil" required>
+              <mat-select formControlName="maritalStatus" required>
                 <mat-option value="solteiro">Solteiro</mat-option>
                 <mat-option value="casado">Casado</mat-option>
                 <mat-option value="separado">Separado</mat-option>
@@ -52,15 +52,15 @@
           <div class="form-row">
             <mat-form-field>
               <mat-label>Profissão</mat-label>
-              <input formControlName="profissao" matInput placeholder="Professor" required>
+              <input formControlName="profession" matInput placeholder="Professor" required>
             </mat-form-field>
             <mat-form-field>
               <mat-label>Telefone</mat-label>
-              <input matInput formControlName="telefone" placeholder="(61) 99999-9999" required>
+              <input matInput formControlName="phoneNumber" placeholder="(61) 99999-9999" required>
             </mat-form-field>
             <mat-form-field>
               <mat-label>Contato de Emergência</mat-label>
-              <input matInput formControlName="contatoDeEmergencia" placeholder="(61) 99999-9999" required>
+              <input matInput formControlName="emergencyNumber" placeholder="(61) 99999-9999" required>
             </mat-form-field>
           </div>
           <div class="form-buttons">
@@ -87,38 +87,80 @@
             </mat-form-field>
             <mat-form-field>
               <mat-label>Rua</mat-label>
-              <input matInput formControlName="rua" placeholder="Rua VP-03" required>
+              <input matInput formControlName="street" placeholder="Rua VP-03" required>
             </mat-form-field>
             <mat-form-field>
               <mat-label>Bairro</mat-label>
-              <input matInput formControlName="bairro" placeholder="Bairro das Rosas" required>
+              <input matInput formControlName="neighborhood" placeholder="Bairro das Rosas" required>
             </mat-form-field>
           </div>
 
           <div class="form-row">
             <mat-form-field>
               <mat-label>Cidade</mat-label>
-              <input matInput formControlName="cidade" placeholder="Anápolis" required>
+              <input matInput formControlName="city" placeholder="Anápolis" required>
             </mat-form-field>
             <mat-form-field>
               <mat-label>Estado</mat-label>
-              <input matInput formControlName="estado" placeholder="Goiás" required>
+              <input matInput formControlName="state" placeholder="Goiás" required>
             </mat-form-field>
             <mat-form-field>
               <mat-label>Número</mat-label>
-              <input matInput formControlName="numero" placeholder="404">
+              <input matInput formControlName="number" placeholder="404">
             </mat-form-field>
           </div>
 
           <div class="form-row">
             <mat-form-field>
               <mat-label>Complemento</mat-label>
-              <textarea matInput placeholder="Quadra 02, lote 01, apartamento 401"></textarea>
+              <textarea matInput formControlName="complement" placeholder="Quadra 02, lote 01, apartamento 401"></textarea>
             </mat-form-field>
           </div>
           <div class="form-buttons">
             <button mat-button matStepperPrevious>Voltar</button>
-            <button mat-button [mat-dialog-close]="true" (click)="incluirPaciente()">Finalizar</button>
+            <button mat-button matStepperNext>Próximo</button>
+          </div>
+        </form>
+      </section>
+    </mat-step>
+    <mat-step [stepControl]="thirdFormGroup" errorMessage="Dados complementares são obrigatórios">
+      <section class="form-container">
+        <form [formGroup]="thirdFormGroup" class="form-group">
+          <ng-template matStepLabel>Dados Complementares</ng-template>
+          <!-- Aqui é o terceiro passo do stepper, onde o usuário irá preencher os dados complementares.
+          são poucas informações -->
+
+          <div class="form-row">
+            <mat-form-field>
+              <mat-label>Possui Plano de Saúde?</mat-label>
+              <mat-select formControlName="hasHealthPlan" required>
+                <mat-option [value]="true">Sim</mat-option>
+                <mat-option [value]="false">Não</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field *ngIf="thirdFormGroup.get('hasHealthPlan')?.value">
+              <mat-label>Plano de Saúde</mat-label>
+              <input matInput formControlName="healthPlan" placeholder="Nome do Plano">
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field>
+              <mat-label>Ativo?</mat-label>
+              <mat-select formControlName="enabled" required>
+                <mat-option [value]="true">Sim</mat-option>
+                <mat-option [value]="false">Não</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Preço da Hora</mat-label>
+              <input matInput formControlName="valueForHour" placeholder="100" required>
+            </mat-form-field>
+          </div>
+
+          <div class="form-buttons">
+            <button mat-button matStepperPrevious>Voltar</button>
+            <button mat-button (click)="incluirPaciente()">Finalizar</button>
           </div>
         </form>
       </section>

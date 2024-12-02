@@ -18,6 +18,7 @@ import {ViaCepService} from '../../../services/via-cep.service';
 import {MatProgressBar} from '@angular/material/progress-bar';
 import {NgIf} from '@angular/common';
 import {PacienteService} from '../paciente.service';
+import {MatSlideToggle} from '@angular/material/slide-toggle';
 
 @Component({
     selector: 'app-paciente-form',
@@ -43,7 +44,8 @@ import {PacienteService} from '../paciente.service';
     MatOption,
     MatStepperNext,
     MatProgressBar,
-    NgIf
+    NgIf,
+    MatSlideToggle
   ],
     providers: [
       {
@@ -84,33 +86,39 @@ export class PacienteFormComponent implements OnInit{
       emergencyNumber: [this.data?.emergencyNumber || '', [Validators.required]],
     });
     this.secondFormGroup = this._formBuilder.group({
-      cep: [this.data?.cep || '', [Validators.required]],
-      street: [this.data?.street || '', [Validators.required]],
-      neighborhood: [this.data?.neighborhood || '', [Validators.required]],
-      city: [this.data?.city || '', [Validators.required]],
-      state: [this.data?.state || '', [Validators.required]],
-      number: [this.data?.number || ''],
-      complement: [this.data?.complement || ''],
+      cep: [this.data?.address?.cep || '', [Validators.required]],
+      street: [this.data?.address?.street || '', [Validators.required]],
+      neighborhood: [this.data?.address?.neighborhood || '', [Validators.required]],
+      city: [this.data?.address?.city || '', [Validators.required]],
+      state: [this.data?.address?.state || '', [Validators.required]],
+      number: [this.data?.address?.number || ''],
+      complement: [this.data?.address?.complement || ''],
     });
     this.thirdFormGroup = this._formBuilder.group({
-      hasHealthPlan: [this.data?.hasHealthPlan || false, [Validators.required]],
+      hasHealthPlan: [this.data?.hasHealthPlan],
       healthPlan: [this.data?.healthPlan || ''],
       enabled: [this.data?.active || true, [Validators.required]],
       valueForHour: [this.data?.valueForHour || '', [Validators.required]]
     });
 
     this.observePreenchimentoCep();
-    this.observeHealthPlan();
+    this.observeHealthPlan(this.data?.healthPlan);
   }
 
-  observeHealthPlan() {
+  observeHealthPlan(healthPlan: string) {
     this.thirdFormGroup.get('hasHealthPlan')?.valueChanges.subscribe(value => {
-      if (!value) {
-        this.thirdFormGroup.get('healthPlan')?.setValue('Não possui');
+      if(value) {
+        this.thirdFormGroup.get('healthPlan')?.setValidators([Validators.required]);
+        this.thirdFormGroup.get('healthPlan')?.updateValueAndValidity();
       } else {
-        this.thirdFormGroup.get('healthPlan')?.setValue('');
+        this.thirdFormGroup.get('healthPlan')?.clearValidators();
+        this.thirdFormGroup.get('healthPlan')?.updateValueAndValidity();
       }
     });
+
+    if(healthPlan) {
+      this.thirdFormGroup.get('hasHealthPlan')?.setValue(true);
+    }
   }
 
   observePreenchimentoCep() {
@@ -127,10 +135,10 @@ export class PacienteFormComponent implements OnInit{
     this._viaCepService.getEndereco(cep).subscribe({
       next: (response) => {
         this.secondFormGroup.patchValue({
-          rua: response.logradouro,
-          bairro: response.bairro,
-          cidade: response.localidade,
-          estado: response.uf
+          street: response.logradouro,
+          neighborhood: response.bairro,
+          city: response.localidade,
+          state: response.uf
         });
         this.isLoading = false;
       },
@@ -147,24 +155,30 @@ export class PacienteFormComponent implements OnInit{
     }
     const paciente = {
       ...this.firstFormGroup.value,
-      ...this.secondFormGroup.value,
-      address
+      address,
+      ...this.thirdFormGroup.value
     };
 
-    if (!paciente.hasHealthPlan) {
-      delete paciente.healthPlan;
-      delete paciente.hasHealthPlan;
+    if (this.data?.id) {
+      this._pacienteService.editarPaciente(this.data.id, paciente).subscribe({
+        next: () => {
+          console.log('Paciente atualizado com sucesso');
+          this._dialogRef.close(true);
+        },
+        error: (err) => {
+          console.error('Erro ao atualizar paciente', err);
+        }
+      });
+    } else {
+      this._pacienteService.incluirPaciente(paciente).subscribe({
+        next: () => {
+          console.log('Paciente criado com sucesso');
+          this._dialogRef.close(true);
+        },
+        error: (err) => {
+          console.error('Erro ao criar paciente', err);
+        }
+      });
     }
-
-    this._pacienteService.incluirPaciente(paciente).subscribe({
-      next: () => {
-        console.log('Paciente criado com sucesso');
-        this._dialogRef.close(true);
-      },
-      error: (err) => {
-        console.error('Erro ao criar paciente', err);
-      }
-    });
   }
-
 }

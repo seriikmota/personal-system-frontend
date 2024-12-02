@@ -20,6 +20,7 @@ import {PacienteService} from '../paciente.service';
 import {ConfirmDialogComponent} from '../../../sharedpages/confirm-dialog/confirm-dialog.component';
 import {PhoneFormatPipe} from '../../../sharedpages/phone-format.pipe';
 import {CpfFormatPipe} from '../../../sharedpages/cpf-format.pipe';
+import {PacienteDetailsComponent} from '../paciente-details/paciente-details.component';
 
 @Component({
     selector: 'app-paciente-list',
@@ -51,8 +52,6 @@ export class PacienteListComponent implements AfterViewInit{
       this.dataSource.data = response.content;
       this.paginator.length = response.totalElements;
     });
-
-
   }
 
   incluirPaciente() {
@@ -102,7 +101,23 @@ export class PacienteListComponent implements AfterViewInit{
     });
   }
 
-  outrasAcoes() {
+  outrasAcoes(pacienteId: number) {
+    this._pacienteService.obterPacientePorId(pacienteId).subscribe(paciente => {
+      this._dialog.open(PacienteDetailsComponent, {data: paciente});
+    });
+  }
 
+  pesquisarPorNome() {
+    this._pacienteService.pesquisarPorNome(this.searchName).subscribe(response => {
+      this.dataSource.data = response.content;
+      this.paginator.length = response.totalElements;
+    });
+  }
+
+  pesquisarPorCpf() {
+    this._pacienteService.pesquisarPorCpf(this.searchCpf).subscribe(response => {
+      this.dataSource.data = response.content;
+      this.paginator.length = response.totalElements;
+    });
   }
 }

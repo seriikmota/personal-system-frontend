@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PacienteService {
+  //private apiUrl = 'http://localhost:8080/api/v1/patient';
   private apiUrl = 'http://localhost:8080/api/v1/patient';
 
   private _http = inject(HttpClient);
@@ -27,7 +28,19 @@ export class PacienteService {
     return this._http.delete<any>(`${this.apiUrl}/${id}`);
   }
 
+  editarPaciente(id: number, paciente: any): Observable<any> {
+    return this._http.put<any>(this.apiUrl, paciente);
+  }
+
   obterPacientePorId(id: number): Observable<any> {
     return this._http.get<any>(`${this.apiUrl}/${id}`);
+  }
+
+  pesquisarPorNome(nome: string): Observable<any> {
+    return this._http.get<any>(`${this.apiUrl}/search?name=${nome}`);
+  }
+
+  pesquisarPorCpf(cpf: string): Observable<any> {
+    return this._http.get<any>(`${this.apiUrl}/search?cpf=${cpf}`);
   }
 }

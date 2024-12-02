@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PacienteService {
-  //private apiUrl = 'http://http://13.61.16.36:8080/api/v1/patient';
-  private apiUrl = 'http://localhost:8080/api/v1/patient';
+  private apiUrl = 'https://13.61.16.36:8080/api/v1/patient';
+  //private apiUrl = 'http://localhost:8080/api/v1/patient';
 
   private _http = inject(HttpClient);
 

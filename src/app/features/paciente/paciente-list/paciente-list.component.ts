@@ -16,69 +16,108 @@ import {MatSort, MatSortHeader} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatDialog} from '@angular/material/dialog';
 import {PacienteFormComponent} from '../paciente-form/paciente-form.component';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-  actions?: any;
-}
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
+import {PacienteService} from '../paciente.service';
+import {ConfirmDialogComponent} from '../../../sharedpages/confirm-dialog/confirm-dialog.component';
+import {PhoneFormatPipe} from '../../../sharedpages/phone-format.pipe';
+import {CpfFormatPipe} from '../../../sharedpages/cpf-format.pipe';
+import {PacienteDetailsComponent} from '../paciente-details/paciente-details.component';
 
 @Component({
     selector: 'app-paciente-list',
     templateUrl: 'paciente-list.component.html',
     styleUrls: ['paciente-list.component.scss'],
-    imports: [MatFormFieldModule, MatInputModule, FormsModule, MatIconButton, MatIcon, MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderRow, MatHeaderRowDef, MatPaginator, MatRow, MatRowDef, MatSort, MatSortHeader, MatTable, MatHeaderCellDef, MatFabButton]
+  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatIconButton, MatIcon, MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderRow, MatHeaderRowDef, MatPaginator, MatRow, MatRowDef, MatSort, MatSortHeader, MatTable, MatHeaderCellDef, MatFabButton, PhoneFormatPipe, CpfFormatPipe]
 })
 export class PacienteListComponent implements AfterViewInit{
-  readonly dialog = inject(MatDialog);
+  readonly _dialog = inject(MatDialog);
+  private _pacienteService = inject(PacienteService);
   searchName: any;
   searchCpf: any;
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  dataSource = new MatTableDataSource<any>([]);
+  displayedColumns: string[] = ['name', 'cpf', 'email', 'phoneNumber', 'enabled', 'actions'];
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'situation', 'actions'];
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    this.listarPacientes();
+  }
+
+  listarPacientes() {
+    const pageIndex = this.paginator.pageIndex;
+    const pageSize = this.paginator.pageSize;
+    this._pacienteService.listarPacientes(pageIndex, pageSize).subscribe(response => {
+      this.dataSource.data = response.content;
+      this.paginator.length = response.totalElements;
+    });
   }
 
   incluirPaciente() {
-    const dialogRef = this.dialog.open(PacienteFormComponent, {
+    const dialogRef = this._dialog.open(PacienteFormComponent, {
       maxWidth: '100vw',
       maxHeight: '100vh',
       height: '75%',
       width: '80%'
     });
+
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
+      this.listarPacientes();
     });
   }
 
-  clicarBotaoEditar() {
+  clicarBotaoEditar(pacienteId: number) {
+    this._pacienteService.obterPacientePorId(pacienteId).subscribe(paciente => {
+      const dialogRef = this._dialog.open(PacienteFormComponent, {
+        maxWidth: '100vw',
+        maxHeight: '100vh',
+        height: '75%',
+        width: '80%',
+        data: paciente
+      });
 
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(`Dialog result: ${result}`);
+        this.listarPacientes();
+      });
+    });
   }
 
-  clicarBotaoExcluir() {
+  excluirPaciente(pacienteId: number) {
+    const dialogRef = this._dialog.open(ConfirmDialogComponent, {
+      width: '250px',
+      data: {id: pacienteId}
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this._pacienteService.excluirPaciente(pacienteId).subscribe(() => {
+          console.log('Paciente excluído com sucesso');
+          this.listarPacientes();
+        });
+      }
+    });
   }
 
-  outrasAcoes() {
+  outrasAcoes(pacienteId: number) {
+    this._pacienteService.obterPacientePorId(pacienteId).subscribe(paciente => {
+      this._dialog.open(PacienteDetailsComponent, {data: paciente});
+    });
+  }
 
+  pesquisarPorNome() {
+    this._pacienteService.pesquisarPorNome(this.searchName).subscribe(response => {
+      this.dataSource.data = response.content;
+      this.paginator.length = response.totalElements;
+    });
+  }
+
+  pesquisarPorCpf() {
+    this._pacienteService.pesquisarPorCpf(this.searchCpf).subscribe(response => {
+      this.dataSource.data = response.content;
+      this.paginator.length = response.totalElements;
+    });
   }
 }

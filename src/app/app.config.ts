@@ -8,6 +8,7 @@ import {HttpErrorInterceptor} from './authentication/http-error.interceptor';
 import {SecurityInterceptor} from './authentication/security/security.interceptor';
 import {provideToastr} from 'ngx-toastr';
 import {SecurityGuard} from './authentication/security/security.guard';
+import {provideNgxMask} from 'ngx-mask';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,6 +19,7 @@ export const appConfig: ApplicationConfig = {
       withInterceptorsFromDi()
     ),
     provideToastr({closeButton: true, progressBar: true}),
+    provideNgxMask(),
     {provide: NEW_CONFIG, useValue: { nameStorage: 'portalSSOSecurityStorage', loginRouter: '/login'}},
     {provide: INITIAL_CONFIG, useValue: initialConfig},
     {provide: config, useFactory: _configFactory, deps: [INITIAL_CONFIG, NEW_CONFIG]},

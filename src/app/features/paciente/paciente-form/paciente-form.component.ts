@@ -19,6 +19,7 @@ import {MatProgressBar} from '@angular/material/progress-bar';
 import {NgIf} from '@angular/common';
 import {PacienteService} from '../paciente.service';
 import {MatSlideToggle} from '@angular/material/slide-toggle';
+import {NgxMaskDirective} from 'ngx-mask';
 
 @Component({
     selector: 'app-paciente-form',
@@ -45,7 +46,8 @@ import {MatSlideToggle} from '@angular/material/slide-toggle';
     MatStepperNext,
     MatProgressBar,
     NgIf,
-    MatSlideToggle
+    MatSlideToggle,
+    NgxMaskDirective
   ],
     providers: [
       {
@@ -97,7 +99,7 @@ export class PacienteFormComponent implements OnInit{
     this.thirdFormGroup = this._formBuilder.group({
       hasHealthPlan: [this.data?.hasHealthPlan],
       healthPlan: [this.data?.healthPlan || ''],
-      enabled: [this.data?.active || true, [Validators.required]],
+      enabled: [this.data?.enabled, [Validators.required]],
       valueForHour: [this.data?.valueForHour || '', [Validators.required]]
     });
 

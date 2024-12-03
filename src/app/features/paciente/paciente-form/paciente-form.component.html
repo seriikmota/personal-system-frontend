@@ -131,16 +131,12 @@
           são poucas informações -->
 
           <div class="form-row">
-            <mat-form-field>
-              <mat-label>Ativo?</mat-label>
-              <mat-select formControlName="enabled" required>
-                <mat-option [value]="true">Sim</mat-option>
-                <mat-option [value]="false">Não</mat-option>
-              </mat-select>
-            </mat-form-field>
+            <mat-slide-toggle formControlName="enabled">Ativo?</mat-slide-toggle>
+          </div>
+          <div class="form-row">
             <mat-form-field>
               <mat-label>Preço da Hora</mat-label>
-              <input matInput formControlName="valueForHour" placeholder="100" required>
+              <input matInput formControlName="valueForHour" placeholder="100"  mask="000.00" prefix="R$" required>
             </mat-form-field>
           </div>
 

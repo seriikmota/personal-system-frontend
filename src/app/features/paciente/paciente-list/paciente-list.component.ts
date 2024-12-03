@@ -21,18 +21,21 @@ import {ConfirmDialogComponent} from '../../../sharedpages/confirm-dialog/confir
 import {PhoneFormatPipe} from '../../../sharedpages/phone-format.pipe';
 import {CpfFormatPipe} from '../../../sharedpages/cpf-format.pipe';
 import {PacienteDetailsComponent} from '../paciente-details/paciente-details.component';
+import {NgIf} from '@angular/common';
 
 @Component({
     selector: 'app-paciente-list',
     templateUrl: 'paciente-list.component.html',
     styleUrls: ['paciente-list.component.scss'],
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatIconButton, MatIcon, MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderRow, MatHeaderRowDef, MatPaginator, MatRow, MatRowDef, MatSort, MatSortHeader, MatTable, MatHeaderCellDef, MatFabButton, PhoneFormatPipe, CpfFormatPipe]
+  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatIconButton, MatIcon, MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderRow, MatHeaderRowDef, MatPaginator, MatRow, MatRowDef, MatSort, MatSortHeader, MatTable, MatHeaderCellDef, MatFabButton, PhoneFormatPipe, CpfFormatPipe, NgIf]
 })
 export class PacienteListComponent implements AfterViewInit{
   readonly _dialog = inject(MatDialog);
   private _pacienteService = inject(PacienteService);
   searchName: any;
   searchCpf: any;
+  pageNumber: number = 0;
+  pageSize: number = 10;
   dataSource = new MatTableDataSource<any>([]);
   displayedColumns: string[] = ['name', 'cpf', 'email', 'phoneNumber', 'enabled', 'actions'];
 
@@ -48,9 +51,10 @@ export class PacienteListComponent implements AfterViewInit{
   listarPacientes() {
     const pageIndex = this.paginator.pageIndex;
     const pageSize = this.paginator.pageSize;
-    this._pacienteService.listarPacientes(pageIndex, pageSize).subscribe(response => {
-      this.dataSource.data = response.content;
-      this.paginator.length = response.totalElements;
+    const sortData = this.sort.active ? {sortParam: this.sort.active, sortDirection: this.sort.direction} : null;
+    this._pacienteService.listarPacientes(pageIndex, pageSize, sortData).subscribe(response => {
+      this.dataSource.data = response.content; // Ajuste conforme a estrutura da resposta da API
+      this.paginator.length = response.totalElements; // Ajuste conforme a estrutura da resposta da API
     });
   }
 
@@ -119,5 +123,22 @@ export class PacienteListComponent implements AfterViewInit{
       this.dataSource.data = response.content;
       this.paginator.length = response.totalElements;
     });
+  }
+
+  clearSearchName() {
+    this.searchName = '';
+    this.pesquisarPorNome();
+  }
+
+  clearSearchCpf() {
+    this.searchCpf = '';
+    this.pesquisarPorCpf();
+  }
+
+
+  onPageChange(event: any): void {
+    this.pageSize = event.pageSize;
+    this.pageNumber = event.pageIndex;
+    this.listarPacientes();
   }
 }

@@ -29,7 +29,7 @@ export class PacienteService {
   }
 
   editarPaciente(id: number, paciente: any): Observable<any> {
-    return this._http.put<any>(this.apiUrl, paciente);
+    return this._http.put<any>(`${this.apiUrl}/${id}`, paciente);
   }
 
   obterPacientePorId(id: number): Observable<any> {

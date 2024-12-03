@@ -6,18 +6,27 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PacienteService {
-  private apiUrl = 'https://13.61.16.36:8080/api/v1/patient';
-  //private apiUrl = 'http://localhost:8080/api/v1/patient';
+  //private apiUrl = 'https://13.61.16.36:8080/api/v1/patient';
+  private apiUrl = 'http://localhost:8080/api/v1/patient';
 
   private _http = inject(HttpClient);
 
   constructor() {}
 
-  listarPacientes(page: number, size: number): Observable<any> {
-    let params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', size.toString());
-    return this._http.get<any>(this.apiUrl, { params });
+  listarPacientes(pageNumber: number, pageSize: number, sortData: any): Observable<any> {
+    let params;
+    if (sortData) {
+      params = new HttpParams()
+        .set('page', pageNumber)
+        .set('size', pageSize)
+        .set('sort', `${sortData.sortParam},${sortData.sortDirection}`);
+    } else {
+      params = new HttpParams()
+        .set('page', pageNumber)
+        .set('size', pageSize);
+    }
+
+    return this._http.get<any>(`${this.apiUrl}`, { params: params });
   }
 
   incluirPaciente(paciente: any): Observable<any> {

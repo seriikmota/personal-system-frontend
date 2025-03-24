@@ -1,0 +1,43 @@
+<div class="container center">
+<!--  <mat-card class="example-card" appearance="outlined">-->
+<!--    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg">-->
+<!--    <mat-card-content>-->
+<!--      -->
+<!--    </mat-card-content>-->
+<!--  </mat-card>-->
+  <mat-card class="example-card" appearance="outlined">
+    <mat-card-title class="title-text">
+      <div *ngIf="isValid == 'a'">
+        <p>Escaneie o QR Code para conectar o WhatsApp com nosso sistema</p>
+      </div>
+      <div *ngIf="isValid == 'b'">
+        <p>Mensageiro conectado e funcionando</p>
+      </div>
+      <div *ngIf="isValid == 'c'">
+        <p>Mensageiro desconectado</p>
+      </div>
+    </mat-card-title>
+    <div class="center icon">
+      <div *ngIf="isValid == 'a'">
+        <img mat-card-image src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Link_pra_pagina_principal_da_Wikipedia-PT_em_codigo_QR_b.svg" width="300" height="300">
+      </div>
+      <div *ngIf="isValid == 'b'">
+        <img mat-card-image src="assets/circle-check-solid.svg" width="300" height="300">
+      </div>
+      <div *ngIf="isValid == 'c'">
+        <img mat-card-image src="assets/circle-xmark-solid.svg" width="300" height="300">
+      </div>
+    </div>
+    <mat-card-content class="container-button">
+      <div *ngIf="isValid == 'a'">
+        <button mat-flat-button class="big-button" [disabled]="true">Conectar</button>
+      </div>
+      <div *ngIf="isValid == 'b'">
+        <button mat-flat-button class="big-button" style="background-color: #de3730 !important;">Desconectar</button>
+      </div>
+      <div *ngIf="isValid == 'c'">
+        <button mat-flat-button class="big-button" style="background-color: var(--verde)">Conectar</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

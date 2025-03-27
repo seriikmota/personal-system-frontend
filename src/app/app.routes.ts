@@ -4,6 +4,7 @@ import {LoginFormComponent} from './features/login/login-form/login-form.compone
 import {AppComponent} from './app.component';
 import {SecurityGuard} from './authentication/security/security.guard';
 import {MensageiroStatusComponent} from './features/mensageiro/mensageiro-status/mensageiro-status.component';
+import { DashboardContainerComponent } from './features/dashboard/dashboard-container/dashboard-container.component';
 
 export const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -11,4 +12,5 @@ export const routes: Routes = [
   {path: 'login', component: LoginFormComponent},
   {path: 'pacienteList', component: PacienteListComponent, canActivate: [SecurityGuard], data: {security: {roles: ['ROLE_PATIENT_LISTALL']}}},
   {path: 'mensageiro', component: MensageiroStatusComponent},
+  { path: 'dashboard', component: DashboardContainerComponent }
 ];

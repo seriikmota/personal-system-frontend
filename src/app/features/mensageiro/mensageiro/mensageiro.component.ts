@@ -5,6 +5,8 @@ import {NgStyle} from '@angular/common';
 import {MatToolbar} from '@angular/material/toolbar';
 import {MatIcon} from '@angular/material/icon';
 import {FormsModule} from '@angular/forms';
+import {PacienteSelectComponent} from '../../paciente/paciente-select/paciente-select.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-mensageiro-status',
@@ -16,6 +18,9 @@ import {FormsModule} from '@angular/forms';
 export class MensageiroComponent {
   text = '';
   status: any = '';
+  selectedPacientes: any[] = [];
+
+  constructor(public dialog: MatDialog) {}
 
   getTittleCard(): string {
     const labels: { [key: string]: string } = {
@@ -71,7 +76,7 @@ export class MensageiroComponent {
   }
 
   conectar() {
-    console.log('conectar')
+    this.openModal()
   }
 
   enviar() {
@@ -96,6 +101,19 @@ export class MensageiroComponent {
     setTimeout(() => {
       textarea.focus();
       textarea.setSelectionRange(start + (formats[format]?.[0]?.length || 0), start + (formats[format]?.[0]?.length || 0) + selectedText.length);
+    });
+  }
+
+  openModal(): void {
+    const dialogRef = this.dialog.open(PacienteSelectComponent, {
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.selectedPacientes = result;
+        console.log('Pacientes selecionados:', this.selectedPacientes);
+      }
     });
   }
 }

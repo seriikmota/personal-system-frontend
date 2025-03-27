@@ -1,0 +1,90 @@
+<div class="div-list">
+  <section class="section-super-table">
+    <!-- Botão para criar nova Anamnese -->
+    <button mat-fab color="primary" (click)="incluirAnamnese()">
+      <mat-icon>add</mat-icon>
+    </button>
+
+    <!-- Exemplo de busca por ID do Paciente e por data da Anamnese.
+         Adapte os filtros conforme sua necessidade (queixas, data inicial/final, etc.). -->
+    <div class="div-search">
+      <mat-form-field subscriptSizing="dynamic" class="form-search">
+        <mat-label>ID do Paciente</mat-label>
+        <input matInput placeholder="1" [(ngModel)]="searchPatientId" type="number">
+        <button matSuffix mat-icon-button (click)="pesquisarPorPatientId()">
+          <mat-icon>search</mat-icon>
+        </button>
+        <button matSuffix mat-icon-button *ngIf="searchPatientId" (click)="clearSearchPatientId()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-form-field subscriptSizing="dynamic" class="form-search">
+        <mat-label>Data (YYYY-MM-DD)</mat-label>
+        <input matInput placeholder="2023-01-01" [(ngModel)]="searchDate">
+        <button matSuffix mat-icon-button (click)="pesquisarPorData()">
+          <mat-icon>search</mat-icon>
+        </button>
+        <button matSuffix mat-icon-button *ngIf="searchDate" (click)="clearSearchDate()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </section>
+
+  <section class="table-section">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="listarAnamneses()">
+      <!-- Exemplo de colunas para a tabela de Anamnese -->
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="patientId">
+        <th mat-header-cell *matHeaderCellDef>Paciente (ID)</th>
+        <td mat-cell *matCellDef="let element">{{ element.patientId }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="anamnesisDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Data</th>
+        <td mat-cell *matCellDef="let element">{{ element.anamnesisDate }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="mainComplaints">
+        <th mat-header-cell *matHeaderCellDef>Queixas</th>
+        <td mat-cell *matCellDef="let element">{{ element.mainComplaints }}</td>
+      </ng-container>
+
+      <!-- Exemplo de Ações (editar, excluir, mais ações) -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Ações</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="editarAnamnese(element.id)">
+            <mat-icon>border_color</mat-icon>
+          </button>
+          <button mat-icon-button (click)="excluirAnamnese(element.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-icon-button (click)="outrasAcoes(element.id)">
+            <mat-icon>more_horiz</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Definições das linhas (header e data rows) -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <!-- Paginação -->
+    <mat-paginator
+      [pageSize]="pageSize"
+      [length]="dataSource.paginator?.length"
+      [pageIndex]="dataSource.paginator?.pageIndex"
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      showFirstLastButtons
+      (page)="onPageChange($event)">
+    </mat-paginator>
+  </section>
+</div>

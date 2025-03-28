@@ -15,8 +15,7 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE, MatOption, provideNativeDateAdapter } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
-import { NgIf, NgForOf } from '@angular/common';
-import { NgxMaskDirective } from 'ngx-mask';
+import { NgForOf } from '@angular/common';
 import { AnamneseService } from '../anamnese.service';
 import { PacienteService } from '../../paciente/paciente.service';
 

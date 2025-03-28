@@ -53,13 +53,13 @@ export class SecurityService {
     });
 
     this.onForbidden.subscribe(() => {
-      this._notificationsService.warning("Você não está autenticado!");
-      this._router.navigate([this._securityConfig.loginRouter]);
+      this._notificationsService.warning("Você não tem permissão para acessar ou realiza está ação!");
+      this._router.navigate(['pacientList']);
     });
 
     this.onUnauthorized.subscribe(() => {
-      this._notificationsService.warning("Você não tem permissão para acessar ou realiza está ação!");
-      this._router.navigate(['home']);
+      this._router.navigate([this._securityConfig.loginRouter]);
+      this.invalidate();
     });
   }
 

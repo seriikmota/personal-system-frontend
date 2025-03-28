@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {NgStyle} from '@angular/common';
@@ -6,21 +6,29 @@ import {MatToolbar} from '@angular/material/toolbar';
 import {MatIcon} from '@angular/material/icon';
 import {FormsModule} from '@angular/forms';
 import {PacienteSelectComponent} from '../../paciente/paciente-select/paciente-select.component';
-import {MatDialog} from '@angular/material/dialog';
+import {MensageiroService} from '../mensageiro.service';
+import {MatInput} from '@angular/material/input';
+import {MatTooltip} from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-mensageiro-status',
-  imports: [MatCardModule, MatButtonModule, NgStyle, MatToolbar, MatIcon, FormsModule],
+  imports: [MatCardModule, MatButtonModule, NgStyle, MatToolbar, MatIcon, FormsModule, PacienteSelectComponent, MatInput, MatTooltip],
   templateUrl: './mensageiro.component.html',
   styleUrl: './mensageiro.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MensageiroComponent {
-  text = '';
-  status: any = '';
+  haveInstance: boolean = false;
+  status: string = '';
+  qrCodeBase64: string = '';
+
+  text: string = '';
   selectedPacientes: any[] = [];
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public service: MensageiroService,
+              private changeDetectorRef: ChangeDetectorRef) {
+    this.getStatus();
+  }
 
   getTittleCard(): string {
     const labels: { [key: string]: string } = {
@@ -33,7 +41,7 @@ export class MensageiroComponent {
 
   getImage(): string {
     const images: { [key: string]: string } = {
-      connecting: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Link_pra_pagina_principal_da_Wikipedia-PT_em_codigo_QR_b.svg',
+      connecting: this.qrCodeBase64,
       open: 'assets/circle-check-solid.svg',
       close: 'assets/circle-xmark-solid.svg'
     };
@@ -67,21 +75,55 @@ export class MensageiroComponent {
     (actions[this.status] ?? actions['close'])();
   }
 
-  atualizar() {
-    console.log('atualizar')
-  }
-
-  desconectar() {
-    console.log('desconectar')
+  getStatus() {
+    this.service.status().subscribe({
+      next: response => {
+        this.haveInstance = true
+        this.status = response.status
+        console.log(this.status)
+        this.changeDetectorRef.detectChanges()
+      },
+      error: err => {
+        this.haveInstance = false
+        this.changeDetectorRef.detectChanges();
+      }
+    })
   }
 
   conectar() {
-    this.openModal()
+    this.service.connect().subscribe({
+      next: response => {
+        console.log(response)
+        this.qrCodeBase64 = response.base64;
+        this.status = 'connecting';
+        this.changeDetectorRef.detectChanges()
+      }
+    })
+  }
+
+  desconectar() {
+    this.service.logout().subscribe({
+      next: () => {
+        this.getStatus();
+      }
+    })
+  }
+
+  atualizar() {
+    this.getStatus();
   }
 
   enviar() {
-    console.log('enviar')
-  }
+    let dto = { pacients: this.selectedPacientes, message: this.text }
+    console.log(dto)
+    this.service.sendMessage(dto).subscribe({
+      next: response => {
+        console.log(response)
+      },
+      error: err => {
+        console.log(err)
+      }
+    })  }
 
   formatText(format: string) {
     const textarea = document.getElementById('editor') as HTMLTextAreaElement;
@@ -104,16 +146,7 @@ export class MensageiroComponent {
     });
   }
 
-  openModal(): void {
-    const dialogRef = this.dialog.open(PacienteSelectComponent, {
-      width: '400px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.selectedPacientes = result;
-        console.log('Pacientes selecionados:', this.selectedPacientes);
-      }
-    });
+  onSelectedPacientesChange(selected: any[]) {
+    this.selectedPacientes = selected;
   }
 }

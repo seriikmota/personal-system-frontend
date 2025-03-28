@@ -1,29 +1,21 @@
-<h1 mat-dialog-title>Selecione os Pacientes</h1>
-<div mat-dialog-content>
-  <mat-table [dataSource]="dataSource" matSort (matSortChange)="listPacientes()">
-    <ng-container matColumnDef="nome">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
-      <td mat-cell *matCellDef="let paciente">
-        <mat-checkbox
-          [checked]="selectedPacientes.includes(paciente)"
-          (change)="toggleSelection(paciente)">
-          {{ paciente.nome }}
-        </mat-checkbox>
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="listPacientes()" class="custom-table">
+
+    <ng-container matColumnDef="checkAll">
+      <th mat-header-cell *matHeaderCellDef class="check-column">
+        <mat-checkbox (change)="checkAll($event.checked)" [disabled]="disabled"></mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let element" class="check-column">
+        <mat-checkbox [checked]="selectedPacientes.includes(element)" (change)="toggleSelection(element)" [disabled]="disabled"></mat-checkbox>
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="telefone">
-      <th mat-header-cell *matHeaderCellDef>Telefone</th>
-      <td mat-cell *matCellDef="let paciente">{{ paciente.telefone }}</td>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="name-column"> Nome </th>
+      <td mat-cell *matCellDef="let element" class="name-column"> {{element.name}} </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </mat-table>
-
-  <mat-paginator [length]="pacientes.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
-</div>
-<div mat-dialog-actions>
-  <button mat-button (click)="close()">Cancelar</button>
-  <button mat-button (click)="confirmSelection()">Confirmar</button>
+  </table>
 </div>

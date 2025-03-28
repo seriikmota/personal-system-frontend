@@ -114,7 +114,7 @@ export class MensageiroComponent {
   }
 
   enviar() {
-    let dto = { pacients: this.selectedPacientes, message: this.text }
+    let dto = { patients: this.selectedPacientes, message: this.text }
     console.log(dto)
     this.service.sendMessage(dto).subscribe({
       next: response => {

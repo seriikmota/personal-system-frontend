@@ -15,13 +15,14 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE, MatOption, provideNativeDateAdapter } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
-import { NgIf } from '@angular/common';
+import { NgIf, NgForOf } from '@angular/common';
 import { NgxMaskDirective } from 'ngx-mask';
 import { AnamneseService } from '../anamnese.service';
+import { PacienteService } from '../../paciente/paciente.service';
 
 @Component({
   selector: 'app-anamnese-form',
-  standalone: true, // Se estiver usando Standalone Components
+  standalone: true,
   imports: [
     ReactiveFormsModule,
     MatDialogContent,
@@ -41,6 +42,11 @@ import { AnamneseService } from '../anamnese.service';
     MatDatepickerInput,
     MatSuffix,
     MatStepperNext,
+    MatSelect,
+    NgIf,
+    NgxMaskDirective,
+    MatOption,
+    NgForOf
   ],
   providers: [
     {
@@ -54,86 +60,92 @@ import { AnamneseService } from '../anamnese.service';
   styleUrls: ['./anamnese-form.component.scss']
 })
 export class AnamneseFormComponent implements OnInit {
-
-  // Armazena os FormGroups de cada step
   firstFormGroup!: FormGroup;
   secondFormGroup!: FormGroup;
-  thirdFormGroup!: FormGroup;
+  pacientes: any[] = [];
 
-  // Injeção de dependências via new 'inject' (Angular 14+)
   private _formBuilder = inject(FormBuilder);
   private _anamneseService = inject(AnamneseService);
+  private _pacienteService = inject(PacienteService);
   private _dialogRef = inject(MatDialogRef<AnamneseFormComponent>);
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any // Quando for edição, você pode receber o objeto da anamnese
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ngOnInit() {
-    // Passo 1: informações principais
     this.firstFormGroup = this._formBuilder.group({
       patientId: [this.data?.patientId || '', [Validators.required]],
       anamnesisDate: [this.data?.anamnesisDate || '', [Validators.required]],
       mainComplaints: [this.data?.mainComplaints || '', [Validators.required]],
-    });
-
-    // Passo 2: histórico e observações
-    this.secondFormGroup = this._formBuilder.group({
       medicalHistory: [this.data?.medicalHistory || '', [Validators.required]],
       observations: [this.data?.observations || '']
     });
 
-    // Passo 3: medições corporais
-    this.thirdFormGroup = this._formBuilder.group({
+    this.secondFormGroup = this._formBuilder.group({
       weight: [this.data?.weight || null, [Validators.required]],
       height: [this.data?.height || null, [Validators.required]],
       waistCircumference: [this.data?.waistCircumference || null, [Validators.required]],
       hipCircumference: [this.data?.hipCircumference || null, [Validators.required]],
       bodyFatPercentage: [this.data?.bodyFatPercentage || null, [Validators.required]],
       muscleMass: [this.data?.muscleMass || null, [Validators.required]],
-      bodyMassIndex: [this.data?.bodyMassIndex || null, [Validators.required]],
       waistHipRatio: [this.data?.waistHipRatio || null, [Validators.required]],
+    });
+
+    this.carregarPacientes();
+  }
+
+  carregarPacientes() {
+    this._pacienteService.listarPacientes(0, 100, null).subscribe({
+      next: (response) => {
+        this.pacientes = response.content;
+      },
+      error: (err) => {
+        console.error('Erro ao carregar pacientes', err);
+      }
     });
   }
 
-  /**
-   * Método chamado no último passo do Stepper, para incluir ou atualizar a anamnese.
-   */
   incluirAnamnese() {
-    if (this.firstFormGroup.invalid || this.secondFormGroup.invalid || this.thirdFormGroup.invalid) {
-      return; // Aqui você pode exibir alguma mensagem de erro ou só impedir que prossiga
+    if (this.firstFormGroup.invalid || this.secondFormGroup.invalid) {
+      return;
     }
 
-    // Combina os dados dos três passos em um único objeto
-    const anamnese = {
-      ...this.firstFormGroup.value,
-      ...this.secondFormGroup.value,
-      ...this.thirdFormGroup.value
-    };
+    const patientId = this.firstFormGroup.value.patientId;
 
-    // Verifica se é edição ou inclusão
-    if (this.data?.id) {
-      // Edição
-      this._anamneseService.editarAnamnese(this.data.id, anamnese).subscribe({
-        next: () => {
-          console.log('Anamnese atualizada com sucesso');
-          this._dialogRef.close(true); // Fecha o diálogo e informa sucesso
-        },
-        error: (err: unknown) => {
-          console.error('Erro ao atualizar anamnese', err);
+    this._pacienteService.obterPacientePorId(patientId).subscribe({
+      next: (patient) => {
+        const anamnese = {
+          patient: patient,
+          ...this.firstFormGroup.value,
+          ...this.secondFormGroup.value
+        };
+
+        if (this.data?.id) {
+          this._anamneseService.editarAnamnese(this.data.id, anamnese).subscribe({
+            next: () => {
+              console.log('Anamnese atualizada com sucesso');
+              this._dialogRef.close(true);
+            },
+            error: (err: unknown) => {
+              console.error('Erro ao atualizar anamnese', err);
+            }
+          });
+        } else {
+          this._anamneseService.incluirAnamnese(anamnese).subscribe({
+            next: () => {
+              console.log('Anamnese criada com sucesso');
+              this._dialogRef.close(true);
+            },
+            error: (err: unknown) => {
+              console.error('Erro ao criar anamnese', err);
+            }
+          });
         }
-      });
-    } else {
-      // Inclusão
-      this._anamneseService.incluirAnamnese(anamnese).subscribe({
-        next: () => {
-          console.log('Anamnese criada com sucesso');
-          this._dialogRef.close(true);
-        },
-        error: (err: unknown) => {
-          console.error('Erro ao criar anamnese', err);
-        }
-      });
-    }
+      },
+      error: (err) => {
+        console.error('Erro ao obter dados do paciente', err);
+      }
+    });
   }
 }

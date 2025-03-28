@@ -22,5 +22,4 @@ export const routes: Routes = [
       { path: 'edit/:id', component: AnamneseFormComponent } // Edição
     ]
   },
-  {path: 'mensageiro', component: MensageiroComponent},
 ];

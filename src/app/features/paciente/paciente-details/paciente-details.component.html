@@ -2,7 +2,7 @@
 <div class="details-container">
   <p><strong>Nome:</strong> {{ data.name }}</p>
   <div class="line"></div>
-  <p><strong>CPF:</strong> {{ data.cpf }}</p>
+  <p><strong>CPF:</strong> {{ data.cpf | cpfFormat }}</p>
   <div class="line"></div>
   <p><strong>Email:</strong> {{ data.email }}</p>
   <div class="line"></div>
@@ -14,11 +14,17 @@
   <div class="line"></div>
   <p><strong>Profissão:</strong> {{ data.profession }}</p>
   <div class="line"></div>
-  <p><strong>Telefone:</strong> {{ data.phoneNumber }}</p>
+  <p><strong>Telefone:</strong> {{ data.phoneNumber | phoneFormat }}</p>
+  <div class="line"></div>
+  <p><strong>Contato de Emergência:</strong> {{ data.emergencyNumber | phoneFormat}}</p>
   <div class="line"></div>
   <p><strong>Endereço:</strong> {{ data.address.street }}, {{ data.address.number }}, {{ data.address.neighborhood }}, {{ data.address.city }} - {{ data.address.state }}</p>
   <div class="line"></div>
   <p><strong>Plano de Saúde:</strong> {{ data.healthPlan || 'N/A' }}</p>
+  <div class="line"></div>
+  <p><strong>Aulas por mês:</strong> {{ data.classesPerMonth }}</p>
+  <div class="line"></div>
+  <p><strong>Valor da Hora/aula:</strong> R${{ data.valueForHour }}</p>
   <div class="line"></div>
   <p><strong>Ativo:</strong> {{ data.enabled ? 'Sim' : 'Não' }}</p>
 </div>

@@ -1,0 +1,110 @@
+<!-- anamnese-form-dialog.component.html -->
+<h2 mat-dialog-title>Cadastrar Anamnese</h2>
+<mat-dialog-content>
+  <mat-stepper #stepper>
+    <!-- Passo 1: Informações gerais e Histórico -->
+    <mat-step [stepControl]="firstFormGroup" errorMessage="Preencha os dados iniciais da anamnese.">
+      <section class="form-container">
+        <form [formGroup]="firstFormGroup" class="form-group">
+          <ng-template matStepLabel>Dados Gerais e Histórico</ng-template>
+
+          <div class="form-row">
+            <mat-form-field>
+              <mat-label>Paciente</mat-label>
+              <mat-select formControlName="patientId" required>
+                <mat-option *ngFor="let paciente of pacientes" [value]="paciente.id">
+                  {{ paciente.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!-- Data da Anamnese -->
+            <mat-form-field>
+              <mat-label>Data da Anamnese</mat-label>
+              <input matInput formControlName="anamnesisDate" [matDatepicker]="picker" required />
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <!-- Principais Queixas -->
+            <mat-form-field class="full-width">
+              <mat-label>Principais Queixas</mat-label>
+              <textarea matInput formControlName="mainComplaints" placeholder="Descreva as queixas principais..." required></textarea>
+            </mat-form-field>
+
+            <!-- Histórico Médico -->
+            <mat-form-field class="full-width">
+              <mat-label>Histórico Médico</mat-label>
+              <textarea matInput formControlName="medicalHistory" placeholder="Digite o histórico médico..." required></textarea>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <!-- Observações -->
+            <mat-form-field class="full-width">
+              <mat-label>Observações</mat-label>
+              <textarea matInput formControlName="observations" placeholder="Observações adicionais..."></textarea>
+            </mat-form-field>
+          </div>
+
+          <div class="form-buttons">
+            <button mat-button matDialogClose>Cancelar</button>
+            <button mat-button matStepperNext>Próximo</button>
+          </div>
+        </form>
+      </section>
+    </mat-step>
+
+    <!-- Passo 2: Dados de Medidas -->
+    <mat-step [stepControl]="secondFormGroup" errorMessage="Preencha as medidas físicas.">
+      <section class="form-container">
+        <form [formGroup]="secondFormGroup" class="form-group">
+          <ng-template matStepLabel>Dados Físicos</ng-template>
+
+          <div class="form-row">
+            <mat-form-field>
+              <mat-label>Peso (Kg)</mat-label>
+              <input matInput formControlName="weight" type="number" step="0.01" placeholder="70.5" required />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Altura (m)</mat-label>
+              <input matInput formControlName="height" type="number" step="0.01" placeholder="1.75" required />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Cintura (cm)</mat-label>
+              <input matInput formControlName="waistCircumference" type="number" placeholder="80" required />
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field>
+              <mat-label>Quadril (cm)</mat-label>
+              <input matInput formControlName="hipCircumference" type="number" placeholder="90" required />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>% de Gordura</mat-label>
+              <input matInput formControlName="bodyFatPercentage" type="number" step="0.1" placeholder="15" required />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Massa Muscular (Kg)</mat-label>
+              <input matInput formControlName="muscleMass" type="number" step="0.1" placeholder="30" required />
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field>
+              <mat-label>Relação Cintura-Quadril</mat-label>
+              <input matInput formControlName="waistHipRatio" type="number" step="0.01" placeholder="0.88" required />
+            </mat-form-field>
+          </div>
+
+          <div class="form-buttons">
+            <button mat-button matStepperPrevious>Voltar</button>
+            <button mat-button (click)="incluirAnamnese()">Finalizar</button>
+          </div>
+        </form>
+      </section>
+    </mat-step>
+  </mat-stepper>
+</mat-dialog-content>

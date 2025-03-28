@@ -43,8 +43,6 @@ import { PacienteService } from '../../paciente/paciente.service';
     MatSuffix,
     MatStepperNext,
     MatSelect,
-    NgIf,
-    NgxMaskDirective,
     MatOption,
     NgForOf
   ],

@@ -5,10 +5,15 @@ export interface ClientesAtivosInativos {
 
 export interface ClientePorMensalidade {
   subscriptionType: string;
-  count: number;
+  clientCount: number;
 }
 
 export interface ClientePorIdade {
   ageRange: string;
-  count: number;
+  clientCount: number;
+}
+
+export interface ClientePorSexo {
+  maleClients: number;
+  femaleClients: number;
 }

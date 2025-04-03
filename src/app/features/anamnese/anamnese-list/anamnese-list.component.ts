@@ -25,6 +25,7 @@ import { AnamneseService } from '../anamnese.service';
 import { ConfirmDialogComponent } from '../../../sharedpages/confirm-dialog/confirm-dialog.component';
 import { AnamneseDetailsComponent } from '../anamnese-details/anamnese-details.component';
 import {DatePipe, DecimalPipe, NgIf} from '@angular/common';
+import {PacienteService} from '../../paciente/paciente.service';
 
 @Component({
   selector: 'app-anamnese-list',
@@ -57,12 +58,12 @@ import {DatePipe, DecimalPipe, NgIf} from '@angular/common';
 export class AnamneseListComponent implements AfterViewInit {
   private readonly _dialog = inject(MatDialog);
   private readonly _anamneseService = inject(AnamneseService);
+  private readonly _pacienteService = inject(PacienteService);
 
-  // Exemplos de filtros (altere para o que você realmente precisa)
-  searchPatientId: number | null = null;
+
   searchDate: string = '';
+  pacientesCount: number = 0;
 
-  // Configuração de tabela/paginação
   pageNumber: number = 0;
   pageSize: number = 10;
   dataSource = new MatTableDataSource<any>([]);
@@ -70,15 +71,14 @@ export class AnamneseListComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.listarAnamneses();
+    this.carregarPacientes(); // Carregar pacientes ao inicializar
   }
 
-  /**
-   * Exemplo de listagem (paginada, ordenada) de Anamnese.
-   */
   listarAnamneses() {
     // Parâmetros de paginação/ordenação
     const pageIndex = this.paginator.pageIndex;
@@ -100,9 +100,17 @@ export class AnamneseListComponent implements AfterViewInit {
     });
   }
 
-  /**
-   * Abre o diálogo para cadastrar uma nova Anamnese.
-   */
+  carregarPacientes() {
+    this._pacienteService.listarPacientes(0, 1, null).subscribe({
+      next: (response) => {
+        this.pacientesCount = response.totalElements;
+      },
+      error: (err) => {
+        console.error('Erro ao carregar pacientes:', err);
+      }
+    });
+  }
+
   incluirAnamnese() {
     const dialogRef = this._dialog.open(AnamneseFormComponent, {
       maxWidth: '100vw',

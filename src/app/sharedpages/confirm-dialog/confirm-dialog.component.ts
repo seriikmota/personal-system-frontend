@@ -6,7 +6,7 @@ import {
   MatDialogRef,
   MatDialogTitle
 } from '@angular/material/dialog';
-import {MatButton} from '@angular/material/button';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-confirm-dialog',
@@ -22,7 +22,7 @@ import {MatButton} from '@angular/material/button';
 export class ConfirmDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: { title: string, message: string }
   ) {}
 
   onNoClick(): void {

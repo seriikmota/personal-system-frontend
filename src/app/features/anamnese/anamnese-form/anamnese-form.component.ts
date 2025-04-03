@@ -101,7 +101,7 @@ export class AnamneseFormComponent implements OnInit {
       return;
     }
 
-    const patientId = this.data.patient?.id || this.firstFormGroup.get('patientId')?.value;
+    const patientId = this.firstFormGroup.get('patientId')?.value;
 
     this._pacienteService.obterPacientePorId(patientId).subscribe({
       next: (patient) => {

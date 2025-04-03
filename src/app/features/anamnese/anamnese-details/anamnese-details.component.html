@@ -1,6 +1,6 @@
 <h1>Detalhes da Anamnese</h1>
 <div class="details-container">
-  <p><strong>Paciente (ID):</strong> {{ data.patientId }}</p>
+  <p><strong>Nome do Paciente:</strong> {{ data.patient.name }}</p>
   <div class="line"></div>
   <p><strong>Data da Anamnese:</strong> {{ data.anamnesisDate | date: 'dd/MM/yyyy' }}</p>
   <div class="line"></div>
@@ -22,7 +22,7 @@
   <div class="line"></div>
   <p><strong>Massa Muscular (Kg):</strong> {{ data.muscleMass }}</p>
   <div class="line"></div>
-  <p><strong>Índice de Massa Corporal (IMC):</strong> {{ data.bodyMassIndex }}</p>
+  <p><strong>Índice de Massa Corporal (IMC):</strong> {{ data.bodyMassIndex | number: '1.2-2' }}</p>
   <div class="line"></div>
   <p><strong>Relação Cintura-Quadril (RCQ):</strong> {{ data.waistHipRatio }}</p>
 </div>

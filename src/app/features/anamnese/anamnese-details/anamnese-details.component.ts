@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogClose, MatDialogRef } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
-import { DatePipe } from '@angular/common';
+import {DatePipe, DecimalPipe} from '@angular/common';
 
 @Component({
   selector: 'app-anamnese-details',
@@ -9,7 +9,8 @@ import { DatePipe } from '@angular/common';
   imports: [
     MatButton,
     DatePipe,
-    MatDialogClose
+    MatDialogClose,
+    DecimalPipe
   ],
   templateUrl: './anamnese-details.component.html',
   styleUrls: ['./anamnese-details.component.scss']

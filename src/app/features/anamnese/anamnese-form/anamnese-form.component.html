@@ -17,13 +17,6 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <!-- Data da Anamnese -->
-            <mat-form-field>
-              <mat-label>Data da Anamnese</mat-label>
-              <input matInput formControlName="anamnesisDate" [matDatepicker]="picker" required />
-              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
           </div>
 
           <div class="form-row">
@@ -65,11 +58,11 @@
           <div class="form-row">
             <mat-form-field>
               <mat-label>Peso (Kg)</mat-label>
-              <input matInput formControlName="weight" type="number" step="0.01" placeholder="70.5" required />
+              <input matInput formControlName="weight" type="number" placeholder="70,5" required />
             </mat-form-field>
             <mat-form-field>
               <mat-label>Altura (m)</mat-label>
-              <input matInput formControlName="height" type="number" step="0.01" placeholder="1.75" required />
+              <input matInput formControlName="height" type="number"placeholder="1,75" required />
             </mat-form-field>
             <mat-form-field>
               <mat-label>Cintura (cm)</mat-label>
@@ -84,21 +77,13 @@
             </mat-form-field>
             <mat-form-field>
               <mat-label>% de Gordura</mat-label>
-              <input matInput formControlName="bodyFatPercentage" type="number" step="0.1" placeholder="15" required />
+              <input matInput formControlName="bodyFatPercentage" type="number" placeholder="15" required />
             </mat-form-field>
             <mat-form-field>
               <mat-label>Massa Muscular (Kg)</mat-label>
-              <input matInput formControlName="muscleMass" type="number" step="0.1" placeholder="30" required />
+              <input matInput formControlName="muscleMass" type="number" placeholder="30" required />
             </mat-form-field>
           </div>
-
-          <div class="form-row">
-            <mat-form-field>
-              <mat-label>Relação Cintura-Quadril</mat-label>
-              <input matInput formControlName="waistHipRatio" type="number" step="0.01" placeholder="0.88" required />
-            </mat-form-field>
-          </div>
-
           <div class="form-buttons">
             <button mat-button matStepperPrevious>Voltar</button>
             <button mat-button (click)="incluirAnamnese()">Finalizar</button>

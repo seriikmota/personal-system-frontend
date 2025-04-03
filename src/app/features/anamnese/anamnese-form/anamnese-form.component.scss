@@ -27,3 +27,14 @@ mat-form-field {
   justify-content: flex-end;
   gap: 10px;
 }
+
+/* src/app/features/anamnese/anamnese-form/anamnese-form.component.scss */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}

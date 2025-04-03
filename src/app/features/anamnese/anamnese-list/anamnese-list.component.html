@@ -1,20 +1,18 @@
 <div class="div-list">
   <section class="section-super-table">
     <!-- Botão para criar nova Anamnese -->
-    <button mat-fab color="primary" (click)="incluirAnamnese()">
+    <button mat-fab color="primary" (click)="incluirAnamnese()" [disabled]="pacientesCount === 0">
       <mat-icon>add</mat-icon>
     </button>
 
-    <!-- Exemplo de busca por ID do Paciente e por data da Anamnese.
-         Adapte os filtros conforme sua necessidade (queixas, data inicial/final, etc.). -->
     <div class="div-search">
       <mat-form-field subscriptSizing="dynamic" class="form-search">
-        <mat-label>ID do Paciente</mat-label>
-        <input matInput placeholder="1" [(ngModel)]="searchPatientId" type="number">
-        <button matSuffix mat-icon-button (click)="pesquisarPorPatientId()">
+        <mat-label>Nome do Paciente</mat-label>
+        <input matInput placeholder="Nome do Paciente" [(ngModel)]="searchPatientName">
+        <button matSuffix mat-icon-button (click)="pesquisarPorPatientName()">
           <mat-icon>search</mat-icon>
         </button>
-        <button matSuffix mat-icon-button *ngIf="searchPatientId" (click)="clearSearchPatientId()">
+        <button matSuffix mat-icon-button *ngIf="searchPatientName" (click)="clearSearchPatientName()">
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
@@ -34,29 +32,31 @@
 
   <section class="table-section">
     <table mat-table [dataSource]="dataSource" matSort (matSortChange)="listarAnamneses()">
-      <!-- Exemplo de colunas para a tabela de Anamnese -->
-
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="patientId">
-        <th mat-header-cell *matHeaderCellDef>Paciente (ID)</th>
-        <td mat-cell *matCellDef="let element">{{ element.patientId }}</td>
+      <ng-container matColumnDef="patientName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome do Paciente</th>
+        <td mat-cell *matCellDef="let element">{{ element.patient.name }}</td>
       </ng-container>
 
       <ng-container matColumnDef="anamnesisDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Data</th>
-        <td mat-cell *matCellDef="let element">{{ element.anamnesisDate }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.anamnesisDate | date: 'dd/MM/yyyy' }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="mainComplaints">
-        <th mat-header-cell *matHeaderCellDef>Queixas</th>
-        <td mat-cell *matCellDef="let element">{{ element.mainComplaints }}</td>
+      <ng-container matColumnDef="weight">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Peso</th>
+        <td mat-cell *matCellDef="let element">{{ element.weight }}</td>
       </ng-container>
 
-      <!-- Exemplo de Ações (editar, excluir, mais ações) -->
+      <ng-container matColumnDef="bodyMassIndex">
+        <th mat-header-cell *matHeaderCellDef >IMC</th>
+        <td mat-cell *matCellDef="let element">{{ element.bodyMassIndex | number: '1.2-2' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="waistHipRatio">
+        <th mat-header-cell *matHeaderCellDef >RCQ</th>
+        <td mat-cell *matCellDef="let element">{{ element.waistHipRatio }}</td>
+      </ng-container>
+
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Ações</th>
         <td mat-cell *matCellDef="let element">

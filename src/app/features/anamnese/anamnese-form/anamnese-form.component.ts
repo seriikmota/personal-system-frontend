@@ -9,10 +9,9 @@ import {
 } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
 import { MatStep, MatStepLabel, MatStepper, MatStepperNext, MatStepperPrevious } from '@angular/material/stepper';
-import { MatFormField, MatFormFieldModule, MatLabel, MatSuffix } from '@angular/material/form-field';
+import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE, MatOption, provideNativeDateAdapter } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { NgForOf } from '@angular/common';
@@ -36,10 +35,6 @@ import { PacienteService } from '../../paciente/paciente.service';
     MatStepLabel,
     MatStepperPrevious,
     MatLabel,
-    MatDatepicker,
-    MatDatepickerToggle,
-    MatDatepickerInput,
-    MatSuffix,
     MatStepperNext,
     MatSelect,
     MatOption,
@@ -72,8 +67,7 @@ export class AnamneseFormComponent implements OnInit {
 
   ngOnInit() {
     this.firstFormGroup = this._formBuilder.group({
-      patientId: [this.data?.patientId || '', [Validators.required]],
-      anamnesisDate: [this.data?.anamnesisDate || '', [Validators.required]],
+      patientId: [{ value: this.data?.patient?.id || '', disabled: !!this.data }, [Validators.required]],
       mainComplaints: [this.data?.mainComplaints || '', [Validators.required]],
       medicalHistory: [this.data?.medicalHistory || '', [Validators.required]],
       observations: [this.data?.observations || '']
@@ -85,8 +79,7 @@ export class AnamneseFormComponent implements OnInit {
       waistCircumference: [this.data?.waistCircumference || null, [Validators.required]],
       hipCircumference: [this.data?.hipCircumference || null, [Validators.required]],
       bodyFatPercentage: [this.data?.bodyFatPercentage || null, [Validators.required]],
-      muscleMass: [this.data?.muscleMass || null, [Validators.required]],
-      waistHipRatio: [this.data?.waistHipRatio || null, [Validators.required]],
+      muscleMass: [this.data?.muscleMass || null, [Validators.required]]
     });
 
     this.carregarPacientes();
@@ -108,7 +101,7 @@ export class AnamneseFormComponent implements OnInit {
       return;
     }
 
-    const patientId = this.firstFormGroup.value.patientId;
+    const patientId = this.data.patient?.id || this.firstFormGroup.get('patientId')?.value;
 
     this._pacienteService.obterPacientePorId(patientId).subscribe({
       next: (patient) => {

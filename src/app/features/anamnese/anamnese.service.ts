@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AnamneseService {
-  private apiUrl = 'http://localhost:8080/api/v1/anmnese';
+  private apiUrl = 'http://localhost:8080/api/v1/anamnese';
 
   private _http = inject(HttpClient);
 
@@ -55,4 +55,10 @@ export class AnamneseService {
 
     return this._http.get<any>(`${this.apiUrl}/search`, { params });
   }
+
+  pesquisarAnamnesesPorNome(nome: string): Observable<any> {
+    const params = new HttpParams().set('patientName', nome);
+    return this._http.get<any>(`${this.apiUrl}/search`, { params });
+  }
+
 }

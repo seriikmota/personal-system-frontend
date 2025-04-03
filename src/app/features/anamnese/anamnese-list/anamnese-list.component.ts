@@ -24,7 +24,7 @@ import { AnamneseFormComponent } from '../anamnese-form/anamnese-form.component'
 import { AnamneseService } from '../anamnese.service';
 import { ConfirmDialogComponent } from '../../../sharedpages/confirm-dialog/confirm-dialog.component';
 import { AnamneseDetailsComponent } from '../anamnese-details/anamnese-details.component';
-import {NgIf} from '@angular/common';
+import {DatePipe, DecimalPipe, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-anamnese-list',
@@ -51,10 +51,7 @@ import {NgIf} from '@angular/common';
     MatSortHeader,
     MatTable,
     MatHeaderCellDef,
-    MatFabButton,
-    // Angular common:
-    NgIf,
-    // Caso não esteja usando standalone, importe em seu módulo normal
+    MatFabButton, NgIf, DecimalPipe, DatePipe,
   ]
 })
 export class AnamneseListComponent implements AfterViewInit {
@@ -69,8 +66,7 @@ export class AnamneseListComponent implements AfterViewInit {
   pageNumber: number = 0;
   pageSize: number = 10;
   dataSource = new MatTableDataSource<any>([]);
-  displayedColumns: string[] = ['id', 'patientId', 'anamnesisDate', 'mainComplaints', 'actions'];
-
+  displayedColumns: string[] = ['patientName', 'anamnesisDate', 'weight', 'bodyMassIndex', 'waistHipRatio', 'actions'];
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -123,9 +119,6 @@ export class AnamneseListComponent implements AfterViewInit {
     });
   }
 
-  /**
-   * Edita uma anamnese ao buscar pelo ID e abrir o form em modo edição.
-   */
   editarAnamnese(anamneseId: number) {
     this._anamneseService.obterAnamnesePorId(anamneseId).subscribe({
       next: (anamnese) => {
@@ -173,9 +166,6 @@ export class AnamneseListComponent implements AfterViewInit {
     });
   }
 
-  /**
-   * Exemplo de "outras ações" que abre um diálogo de detalhes.
-   */
   outrasAcoes(anamneseId: number) {
     this._anamneseService.obterAnamnesePorId(anamneseId).subscribe({
       next: (anamnese) => {
@@ -186,40 +176,35 @@ export class AnamneseListComponent implements AfterViewInit {
       },
     });
   }
+  searchPatientName: string = '';
 
-  /**
-   * Exemplo de filtro/pesquisa por ID de Paciente.
-   */
-  pesquisarPorPatientId() {
-    if (this.searchPatientId == null) {
+  pesquisarPorPatientName() {
+    if (!this.searchPatientName) {
       this.listarAnamneses();
       return;
     }
-    this._anamneseService.pesquisarAnamneses(this.searchPatientId, undefined).subscribe({
+    this._anamneseService.pesquisarAnamnesesPorNome(this.searchPatientName).subscribe({
       next: (response) => {
         this.dataSource.data = response.content;
         this.paginator.length = response.totalElements;
       },
       error: (err) => {
-        console.error('Erro ao buscar por ID de paciente:', err);
+        console.error('Erro ao buscar por nome do paciente:', err);
       },
     });
   }
 
-  clearSearchPatientId() {
-    this.searchPatientId = null;
+  clearSearchPatientName() {
+    this.searchPatientName = '';
     this.listarAnamneses();
   }
 
-  /**
-   * Exemplo de filtro/pesquisa por data.
-   */
   pesquisarPorData() {
     if (!this.searchDate) {
       this.listarAnamneses();
       return;
     }
-    // Aqui supomos que você tem um endpoint que filtra por data
+
     this._anamneseService.pesquisarAnamneses(undefined, this.searchDate).subscribe({
       next: (response) => {
         this.dataSource.data = response.content;
@@ -236,9 +221,6 @@ export class AnamneseListComponent implements AfterViewInit {
     this.listarAnamneses();
   }
 
-  /**
-   * Paginação
-   */
   onPageChange(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.pageNumber = event.pageIndex;

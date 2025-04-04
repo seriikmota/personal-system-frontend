@@ -99,7 +99,7 @@ export class PacienteFormComponent implements OnInit{
     this.thirdFormGroup = this._formBuilder.group({
       hasHealthPlan: [this.data?.hasHealthPlan],
       healthPlan: [this.data?.healthPlan || ''],
-      enabled: [this.data?.enabled, [Validators.required]],
+      enabled: [this.data?.enabled || false],
       valueForHour: [this.data?.valueForHour || '', [Validators.required]],
       classesPerMonth: [this.data?.classesPerMonth || '']
     });

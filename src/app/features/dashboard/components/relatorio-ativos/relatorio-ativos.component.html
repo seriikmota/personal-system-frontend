@@ -1,0 +1,7 @@
+<div class="relatorio-container">
+  <mat-card class="grafico grafico-barra" style="background: white;">
+    <h2>Clientes por Cidade</h2>
+    <ngx-charts-bar-vertical [view]="[500, 300]" [results]="clientesPorCidade" [legend]="true"
+      [scheme]="colorScheme" [legendTitle]="'Legenda'"></ngx-charts-bar-vertical>
+  </mat-card>
+</div>

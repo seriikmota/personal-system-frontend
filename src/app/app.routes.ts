@@ -3,6 +3,7 @@ import { PacienteListComponent } from './features/paciente/paciente-list/pacient
 import {LoginFormComponent} from './features/login/login-form/login-form.component';
 import {AppComponent} from './app.component';
 import {SecurityGuard} from './authentication/security/security.guard';
+import { DashboardContainerComponent } from './features/dashboard/dashboard-container/dashboard-container.component';
 import { AnamneseListComponent } from './features/anamnese/anamnese-list/anamnese-list.component';
 import { AnamneseFormComponent } from './features/anamnese/anamnese-form/anamnese-form.component';
 import { AnamneseDetailsComponent } from './features/anamnese/anamnese-details/anamnese-details.component';
@@ -13,6 +14,7 @@ export const routes: Routes = [
   {path: 'home', component: AppComponent},
   {path: 'login', component: LoginFormComponent},
   {path: 'pacienteList', component: PacienteListComponent, canActivate: [SecurityGuard], data: {security: {roles: ['ROLE_PATIENT_LISTALL']}}},
+  { path: 'dashboard', component: DashboardContainerComponent },
   {path: 'mensageiro', component: MensageiroComponent},
   {
     path: 'anamnese',

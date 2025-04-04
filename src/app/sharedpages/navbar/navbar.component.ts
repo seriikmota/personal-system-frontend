@@ -4,7 +4,7 @@ import { MatToolbar } from '@angular/material/toolbar';
 import { MatIconButton } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { DrawerService } from '../../services/drawer.service';
-import { AuthService } from '../../authentication/auth.service';
+import {SecurityService} from '../../authentication/security/security.service';
 
 @Component({
   selector: 'app-navbar',
@@ -20,12 +20,13 @@ import { AuthService } from '../../authentication/auth.service';
 export class NavbarComponent {
 
   private _drawerService = inject(DrawerService);
-  private _authService = inject(AuthService);
+  private _securityService = inject(SecurityService);
 
   toggleDrawer() {
     this._drawerService.toggle();
   }
 
   logout() {
+    this._securityService.logout();
   }
 }

@@ -59,8 +59,9 @@ export class SecurityService {
     });
 
     this.onUnauthorized.subscribe(() => {
-      this._router.navigate([this._securityConfig.loginRouter]);
-      this.invalidate();
+      this._router.navigate(['/login']);
+      this._credential.clean();
+      this._refreshSubscription?.unsubscribe();
     });
   }
 

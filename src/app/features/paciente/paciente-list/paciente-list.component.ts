@@ -36,6 +36,7 @@ export class PacienteListComponent implements AfterViewInit{
   private _anamneseService = inject(AnamneseService);
 
 
+  nameForDelete: any
   searchName: any;
   searchCpf: any;
   pageNumber: number = 0;
@@ -100,8 +101,9 @@ export class PacienteListComponent implements AfterViewInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      this.nameForDelete = this.dataSource.data.find((paciente: any) => paciente.id === pacienteId)?.name;
       if (result) {
-        this._anamneseService.pesquisarAnamneses(pacienteId).subscribe({
+        this._anamneseService.pesquisarAnamneses(this.nameForDelete).subscribe({
           next: (response) => {
             if (response.totalElements > 0) {
               const dialogRef = this._dialog.open(ConfirmDialogComponent, {

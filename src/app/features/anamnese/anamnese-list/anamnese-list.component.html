@@ -18,12 +18,18 @@
       </mat-form-field>
 
       <mat-form-field subscriptSizing="dynamic" class="form-search">
-        <mat-label>Data (YYYY-MM-DD)</mat-label>
-        <input matInput placeholder="2023-01-01" [(ngModel)]="searchDate">
+        <mat-label>Selecione o intervalo</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="Data Inicial" [(ngModel)]="searchStartDate">
+          <input matEndDate placeholder="Data Final" [(ngModel)]="searchEndDate">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+
         <button matSuffix mat-icon-button (click)="pesquisarPorData()">
           <mat-icon>search</mat-icon>
         </button>
-        <button matSuffix mat-icon-button *ngIf="searchDate" (click)="clearSearchDate()">
+        <button matSuffix mat-icon-button *ngIf="searchStartDate || searchEndDate" (click)="clearSearchDate()">
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>

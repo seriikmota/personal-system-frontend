@@ -16,12 +16,17 @@
               <mat-label>CPF</mat-label>
               <input matInput formControlName="cpf" placeholder="123.456.789-12" mask="000.000.000-00" required>
             </mat-form-field>
+
+
+
             <mat-form-field>
               <mat-label>Data de Nascimento</mat-label>
               <input matInput formControlName="birthDate" [matDatepicker]="picker">
               <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker disabled="false"></mat-datepicker>
             </mat-form-field>
+
+
           </div>
 
           <div class="form-row">

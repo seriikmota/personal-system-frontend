@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, inject, ViewChild } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatFabButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import {
@@ -26,6 +26,15 @@ import { ConfirmDialogComponent } from '../../../sharedpages/confirm-dialog/conf
 import { AnamneseDetailsComponent } from '../anamnese-details/anamnese-details.component';
 import {DatePipe, DecimalPipe, NgIf} from '@angular/common';
 import {PacienteService} from '../../paciente/paciente.service';
+import {
+  MatDatepicker,
+  MatDatepickerInput, MatDatepickerModule,
+  MatDatepickerToggle,
+  MatDateRangeInput,
+  MatDateRangePicker
+} from '@angular/material/datepicker';
+import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
+import {MAT_DATE_LOCALE, provideNativeDateAdapter} from '@angular/material/core';
 
 @Component({
   selector: 'app-anamnese-list',
@@ -52,16 +61,23 @@ import {PacienteService} from '../../paciente/paciente.service';
     MatSortHeader,
     MatTable,
     MatHeaderCellDef,
-    MatFabButton, NgIf, DecimalPipe, DatePipe,
-  ]
+    MatDatepickerModule,
+    MatFabButton, NgIf, DecimalPipe, DatePipe, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, ReactiveFormsModule, MatDateRangeInput, MatDateRangePicker,
+  ],
+  providers: [
+    DatePipe,
+    [provideNativeDateAdapter()],
+    {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'}
+  ],
 })
 export class AnamneseListComponent implements AfterViewInit {
   private readonly _dialog = inject(MatDialog);
   private readonly _anamneseService = inject(AnamneseService);
   private readonly _pacienteService = inject(PacienteService);
+  private readonly datePipe = inject(DatePipe);
 
-
-  searchDate: string = '';
+  searchStartDate: string = '';
+  searchEndDate: string = '';
   pacientesCount: number = 0;
 
   pageNumber: number = 0;
@@ -150,9 +166,6 @@ export class AnamneseListComponent implements AfterViewInit {
     });
   }
 
-  /**
-   * Exclui uma anamnese, pedindo confirmação antes.
-   */
   excluirAnamnese(anamneseId: number) {
     const dialogRef = this._dialog.open(ConfirmDialogComponent, {
       width: '250px',
@@ -191,7 +204,7 @@ export class AnamneseListComponent implements AfterViewInit {
       this.listarAnamneses();
       return;
     }
-    this._anamneseService.pesquisarAnamnesesPorNome(this.searchPatientName).subscribe({
+    this._anamneseService.pesquisarAnamneses(this.searchPatientName).subscribe({
       next: (response) => {
         this.dataSource.data = response.content;
         this.paginator.length = response.totalElements;
@@ -208,12 +221,15 @@ export class AnamneseListComponent implements AfterViewInit {
   }
 
   pesquisarPorData() {
-    if (!this.searchDate) {
+    if (!this.searchStartDate && !this.searchEndDate) {
       this.listarAnamneses();
       return;
     }
 
-    this._anamneseService.pesquisarAnamneses(undefined, this.searchDate).subscribe({
+    const formattedStartDate = this.searchStartDate ? this.datePipe.transform(this.searchStartDate, 'yyyy-MM-dd') : null;
+    const formattedEndDate = this.searchEndDate ? this.datePipe.transform(this.searchEndDate, 'yyyy-MM-dd') : null;
+
+    this._anamneseService.pesquisarAnamneses(undefined, formattedStartDate, formattedEndDate).subscribe({
       next: (response) => {
         this.dataSource.data = response.content;
         this.paginator.length = response.totalElements;
@@ -225,7 +241,8 @@ export class AnamneseListComponent implements AfterViewInit {
   }
 
   clearSearchDate() {
-    this.searchDate = '';
+    this.searchStartDate = '';
+    this.searchEndDate = '';
     this.listarAnamneses();
   }
 

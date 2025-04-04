@@ -40,11 +40,11 @@ export class AnamneseService {
     return this._http.get<any>(`${this.apiUrl}/${id}`);
   }
 
-  pesquisarAnamneses(patientId?: number, startDate?: string, endDate?: string): Observable<any> {
+  pesquisarAnamneses(patientName: any, startDate?: string | null, endDate?: string | null): Observable<any> {
     let params = new HttpParams();
 
-    if (patientId != null) {
-      params = params.set('patientId', patientId);
+    if (patientName != null) {
+      params = params.set('patientName', patientName);
     }
     if (startDate) {
       params = params.set('startDate', startDate);

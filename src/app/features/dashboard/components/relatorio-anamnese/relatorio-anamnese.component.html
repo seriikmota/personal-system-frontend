@@ -1,7 +1,7 @@
 <div class="relatorio-container">
   <mat-card class="grafico grafico-pizza" style="background: white;" *ngIf="clientesComSemAnamnese.length > 0">
     <h2>Clientes com e sem Anamnese</h2>
-    <ngx-charts-pie-chart [view]="[400, 300]" [doughnut]="true" [results]="clientesComSemAnamnese"
+    <ngx-charts-pie-chart [view]="[530, 300]" [doughnut]="true" [results]="clientesComSemAnamnese"
       [legend]="true" [scheme]="colorScheme" [legendTitle]="'Legenda'"></ngx-charts-pie-chart>
   </mat-card>
 

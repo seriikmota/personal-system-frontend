@@ -64,6 +64,7 @@ export class AnamneseListComponent implements AfterViewInit {
   searchDate: string = '';
   pacientesCount: number = 0;
 
+  searchName: any;
   pageNumber: number = 0;
   pageSize: number = 10;
   dataSource = new MatTableDataSource<any>([]);
@@ -89,8 +90,6 @@ export class AnamneseListComponent implements AfterViewInit {
 
     this._anamneseService.listarAnamneses(pageIndex, pageSize, sortData).subscribe({
       next: (response) => {
-        // Ajuste conforme o que sua API retorna:
-        // Se for { content, totalElements }, use assim:
         this.dataSource.data = response.content;
         this.paginator.length = response.totalElements;
       },
@@ -121,7 +120,6 @@ export class AnamneseListComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // Caso tenha criado/alterado com sucesso, recarrega a lista
         this.listarAnamneses();
       }
     });
@@ -150,13 +148,10 @@ export class AnamneseListComponent implements AfterViewInit {
     });
   }
 
-  /**
-   * Exclui uma anamnese, pedindo confirmação antes.
-   */
   excluirAnamnese(anamneseId: number) {
     const dialogRef = this._dialog.open(ConfirmDialogComponent, {
-      width: '250px',
-      data: { id: anamneseId },
+      width: '400px',
+      data: { title: 'Confirmar exclusão?', message: 'Tem certeza que deseja excluir esta anamnese?\nEsta ação é irreversível!' }
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -184,50 +179,19 @@ export class AnamneseListComponent implements AfterViewInit {
       },
     });
   }
-  searchPatientName: string = '';
 
-  pesquisarPorPatientName() {
-    if (!this.searchPatientName) {
-      this.listarAnamneses();
-      return;
-    }
-    this._anamneseService.pesquisarAnamnesesPorNome(this.searchPatientName).subscribe({
-      next: (response) => {
-        this.dataSource.data = response.content;
-        this.paginator.length = response.totalElements;
-      },
-      error: (err) => {
-        console.error('Erro ao buscar por nome do paciente:', err);
-      },
+  pesquisarPorNome() {
+    this._anamneseService.pesquisarPorNome(this.searchName).subscribe(response => {
+      this.dataSource.data = response.content;
+      this.paginator.length = response.totalElements;
     });
   }
 
-  clearSearchPatientName() {
-    this.searchPatientName = '';
-    this.listarAnamneses();
+  clearSearchName() {
+    this.searchName = '';
+    this.pesquisarPorNome();
   }
 
-  pesquisarPorData() {
-    if (!this.searchDate) {
-      this.listarAnamneses();
-      return;
-    }
-
-    this._anamneseService.pesquisarAnamneses(undefined, this.searchDate).subscribe({
-      next: (response) => {
-        this.dataSource.data = response.content;
-        this.paginator.length = response.totalElements;
-      },
-      error: (err) => {
-        console.error('Erro ao buscar por data:', err);
-      },
-    });
-  }
-
-  clearSearchDate() {
-    this.searchDate = '';
-    this.listarAnamneses();
-  }
 
   onPageChange(event: PageEvent) {
     this.pageSize = event.pageSize;

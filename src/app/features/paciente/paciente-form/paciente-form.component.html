@@ -14,7 +14,7 @@
             </mat-form-field>
             <mat-form-field>
               <mat-label>CPF</mat-label>
-              <input matInput formControlName="cpf" placeholder="123.456.789-12" required>
+              <input matInput formControlName="cpf" placeholder="123.456.789-12" mask="000.000.000-00" required>
             </mat-form-field>
             <mat-form-field>
               <mat-label>Data de Nascimento</mat-label>
@@ -56,11 +56,11 @@
             </mat-form-field>
             <mat-form-field>
               <mat-label>Telefone</mat-label>
-              <input matInput formControlName="phoneNumber" placeholder="(61) 99999-9999" required>
+              <input matInput formControlName="phoneNumber" placeholder="(61) 99999-9999" mask="(00) 00000-0000" required>
             </mat-form-field>
             <mat-form-field>
               <mat-label>Contato de Emergência</mat-label>
-              <input matInput formControlName="emergencyNumber" placeholder="(61) 99999-9999" required>
+              <input matInput formControlName="emergencyNumber" placeholder="(61) 99999-9999" mask="(00) 00000-0000" required>
             </mat-form-field>
           </div>
           <div class="form-buttons">
@@ -133,10 +133,18 @@
           <div class="form-row">
             <mat-slide-toggle formControlName="enabled">Ativo?</mat-slide-toggle>
           </div>
+
           <div class="form-row">
             <mat-form-field>
               <mat-label>Preço da Hora</mat-label>
-              <input matInput formControlName="valueForHour" placeholder="100"  mask="000.00" prefix="R$" required>
+              <input matInput formControlName="valueForHour" placeholder="100" mask="separator.2" thousandSeparator="." decimalMarker="," prefix="R$ " required>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field>
+              <mat-label>Quantidade de aulas por mês</mat-label>
+              <input matInput formControlName="classesPerMonth" placeholder="0">
             </mat-form-field>
           </div>
 

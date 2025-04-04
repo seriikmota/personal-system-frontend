@@ -22,6 +22,7 @@ import {PhoneFormatPipe} from '../../../sharedpages/phone-format.pipe';
 import {CpfFormatPipe} from '../../../sharedpages/cpf-format.pipe';
 import {PacienteDetailsComponent} from '../paciente-details/paciente-details.component';
 import {NgIf} from '@angular/common';
+import {AnamneseService} from '../../anamnese/anamnese.service';
 
 @Component({
     selector: 'app-paciente-list',
@@ -32,6 +33,9 @@ import {NgIf} from '@angular/common';
 export class PacienteListComponent implements AfterViewInit{
   readonly _dialog = inject(MatDialog);
   private _pacienteService = inject(PacienteService);
+  private _anamneseService = inject(AnamneseService);
+
+
   searchName: any;
   searchCpf: any;
   pageNumber: number = 0;
@@ -91,17 +95,42 @@ export class PacienteListComponent implements AfterViewInit{
 
   excluirPaciente(pacienteId: number) {
     const dialogRef = this._dialog.open(ConfirmDialogComponent, {
-      width: '250px',
-      data: {id: pacienteId}
+      width: '400px',
+      data: { title: 'Confirmar exclusão?', message: 'Tem certeza que deseja excluir este paciente?\nEsta ação é irreversível' }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this._pacienteService.excluirPaciente(pacienteId).subscribe(() => {
-          console.log('Paciente excluído com sucesso');
-          this.listarPacientes();
+        this._anamneseService.pesquisarAnamneses(pacienteId).subscribe({
+          next: (response) => {
+            if (response.totalElements > 0) {
+              const dialogRef = this._dialog.open(ConfirmDialogComponent, {
+                width: '400px',
+                data: { title: 'Confirmação Secundária', message: 'Notei que este paciente possui anamnese(s) vinculada(s). Tem certeza que deseja excluir?\n' +
+                    'Essa ação excluirá todas as anamneses deste cliente' }
+              });
+
+              dialogRef.afterClosed().subscribe(result => {
+                if (result) {
+                  this.confirmarExclusaoPaciente(pacienteId);
+                }
+              });
+            } else {
+              this.confirmarExclusaoPaciente(pacienteId);
+            }
+          },
+          error: (err) => {
+            console.error('Erro ao verificar anamneses do paciente:', err);
+          }
         });
       }
+    });
+  }
+
+  confirmarExclusaoPaciente(pacienteId: number) {
+    this._pacienteService.excluirPaciente(pacienteId).subscribe(() => {
+      console.log('Paciente excluído com sucesso');
+      this.listarPacientes();
     });
   }
 

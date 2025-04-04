@@ -1,0 +1,40 @@
+.form-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 16px;
+  margin: 20px;
+}
+
+.form-group{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-row{
+  display: flex;
+  gap: 16px;
+}
+
+mat-form-field {
+  flex: 1;
+  width: 25vw;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* src/app/features/anamnese/anamnese-form/anamnese-form.component.scss */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}

@@ -5,6 +5,7 @@ import {Credential} from '../../models/Credential';
 import {AuthService} from '../auth.service';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
+import {Subscription, timer} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class SecurityService {
   public onUnauthorized = new EventEmitter<Credential>;
   private _securityConfig: IConfig;
   private _credential: Credential;
-  private _intervalId: any;
+  private _refreshSubscription?: Subscription;
 
   constructor(@Inject(config) config: IConfig) {
     this._securityConfig = config;
@@ -31,11 +32,11 @@ export class SecurityService {
     this.credential.init(user);
 
     if (user) {
-      const expiresIn = (user.expiresIn - 10) * 1000;
-      this._intervalId = setInterval(() => {
-        clearInterval(this._intervalId);
+      const refreshTimeMs = (user.expiresIn * 1000) - 10000;
+      this._refreshSubscription?.unsubscribe();
+      this._refreshSubscription = timer(refreshTimeMs).subscribe(() => {
         this.onRefresh.emit(this._credential.refreshToken);
-      }, expiresIn);
+      });
     } else {
       if (this.isValid()) {
         this.onRefresh.emit(this._credential.refreshToken);
@@ -53,13 +54,13 @@ export class SecurityService {
     });
 
     this.onForbidden.subscribe(() => {
-      this._notificationsService.warning("Você não está autenticado!");
-      this._router.navigate([this._securityConfig.loginRouter]);
+      this._notificationsService.warning("Você não tem permissão para acessar ou realiza está ação!");
+      this._router.navigate(['pacientList']);
     });
 
     this.onUnauthorized.subscribe(() => {
-      this._notificationsService.warning("Você não tem permissão para acessar ou realiza está ação!");
-      this._router.navigate(['home']);
+      this._router.navigate([this._securityConfig.loginRouter]);
+      this.invalidate();
     });
   }
 
@@ -101,7 +102,7 @@ export class SecurityService {
 
   private invalidate(): void {
     this._credential.clean();
-    clearInterval(this._intervalId);
+    this._refreshSubscription?.unsubscribe();
     this.onUnauthorized.emit(this._credential);
   }
 

@@ -1,0 +1,29 @@
+<h1>Detalhes da Anamnese</h1>
+<div class="details-container">
+  <p><strong>Nome do Paciente:</strong> {{ data.patient.name }}</p>
+  <div class="line"></div>
+  <p><strong>Data da Anamnese:</strong> {{ data.anamnesisDate | date: 'dd/MM/yyyy' }}</p>
+  <div class="line"></div>
+  <p><strong>Principais Queixas:</strong> {{ data.mainComplaints }}</p>
+  <div class="line"></div>
+  <p><strong>Histórico Médico:</strong> {{ data.medicalHistory }}</p>
+  <div class="line"></div>
+  <p><strong>Observações:</strong> {{ data.observations || 'N/A' }}</p>
+  <div class="line"></div>
+  <p><strong>Peso (Kg):</strong> {{ data.weight }}</p>
+  <div class="line"></div>
+  <p><strong>Altura (m):</strong> {{ data.height }}</p>
+  <div class="line"></div>
+  <p><strong>Circunferência da Cintura (cm):</strong> {{ data.waistCircumference }}</p>
+  <div class="line"></div>
+  <p><strong>Circunferência do Quadril (cm):</strong> {{ data.hipCircumference }}</p>
+  <div class="line"></div>
+  <p><strong>Percentual de Gordura (%):</strong> {{ data.bodyFatPercentage }}</p>
+  <div class="line"></div>
+  <p><strong>Massa Muscular (Kg):</strong> {{ data.muscleMass }}</p>
+  <div class="line"></div>
+  <p><strong>Índice de Massa Corporal (IMC):</strong> {{ data.bodyMassIndex | number: '1.2-2' }}</p>
+  <div class="line"></div>
+  <p><strong>Relação Cintura-Quadril (RCQ):</strong> {{ data.waistHipRatio }}</p>
+</div>
+<button mat-button mat-dialog-close>Fechar</button>

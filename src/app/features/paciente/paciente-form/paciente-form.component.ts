@@ -100,7 +100,8 @@ export class PacienteFormComponent implements OnInit{
       hasHealthPlan: [this.data?.hasHealthPlan],
       healthPlan: [this.data?.healthPlan || ''],
       enabled: [this.data?.enabled, [Validators.required]],
-      valueForHour: [this.data?.valueForHour || '', [Validators.required]]
+      valueForHour: [this.data?.valueForHour || '', [Validators.required]],
+      classesPerMonth: [this.data?.classesPerMonth || '']
     });
 
     this.observePreenchimentoCep();

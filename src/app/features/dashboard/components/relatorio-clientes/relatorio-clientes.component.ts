@@ -25,7 +25,6 @@ import {
 export class RelatorioClientesComponent implements OnInit {
   clientesAtivosInativos: any[] = [];
   clientesPorSexo: any[] = [];
-  clientesPorMensalidade: any[] = [];
   clientesPorIdade: any[] = [];
 
   colorScheme = 'forest';
@@ -34,36 +33,42 @@ export class RelatorioClientesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dashboardService.getClientesAtivosInativos().subscribe((data: ClientesAtivosInativos) => {
-      this.clientesAtivosInativos = [
-        {name: 'Ativos', value: data.activeClients},
-        {name: 'Inativos', value: data.inactiveClients}
-      ];
+    this.dashboardService.getClientesAtivosInativos().subscribe((data: ClientesAtivosInativos | null) => {
+      this.clientesAtivosInativos = data
+        ? [
+            { name: 'Ativos', value: data.activeClients || 0 },
+            { name: 'Inativos', value: data.inactiveClients || 0 }
+          ]
+        : [];
+    }, error => {
+      console.error('Erro ao carregar clientes ativos e inativos:', error);
+      this.clientesAtivosInativos = [];
     });
 
-    this.dashboardService.getClientesPorSexo().subscribe((data: ClientePorSexo) => {
-      this.clientesPorSexo = [
-        {name: 'Masculino', value: data.maleClients},
-        {name: 'Feminino', value: data.femaleClients}
-      ];
+    this.dashboardService.getClientesPorSexo().subscribe((data: ClientePorSexo | null) => {
+      this.clientesPorSexo = data
+        ? [
+            { name: 'Masculino', value: data.maleClients || 0 },
+            { name: 'Feminino', value: data.femaleClients || 0 },
+            { name: 'Outros', value: data.otherClients || 0 }
+          ]
+        : [];
+    }, error => {
+      console.error('Erro ao carregar clientes por sexo:', error);
+      this.clientesPorSexo = [];
     });
 
-    this.dashboardService.getClientesPorMensalidade().subscribe((data: ClientePorMensalidade) => {
-      this.clientesPorMensalidade = [
-        {name: 'Mensalidade', value: data.subscriptionType},
-        {name: 'Quantidade', value: data.clientCount}
-      ];
+    this.dashboardService.getClientesPorIdade().subscribe((data: ClientePorIdade[] | null) => {
+      this.clientesPorIdade = data
+        ? data.map(item => ({
+            name: item.ageRange || 'Desconhecido',
+            value: item.clientCount || 0
+          }))
+        : [];
+      console.log(this.clientesPorIdade);
+    }, error => {
+      this.clientesPorIdade = [];
     });
-
-
-
-    this.dashboardService.getClientesPorIdade().subscribe((data: ClientePorIdade) => {
-      this.clientesPorIdade = [
-        {name: 'Idade', value: data.ageRange},
-        {name: 'Quantidade', value: data.clientCount}
-      ];
-    });
-
 
   }
 }

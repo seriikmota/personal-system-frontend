@@ -16,4 +16,5 @@ export interface ClientePorIdade {
 export interface ClientePorSexo {
   maleClients: number;
   femaleClients: number;
+  otherClients: number;
 }

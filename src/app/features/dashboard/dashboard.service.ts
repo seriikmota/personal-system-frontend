@@ -35,7 +35,7 @@ export class DashboardService {
   }
 
   getCrescimentoClientesAnamnese(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/client-growth-anamnese`);
+    return this.http.get(`${this.apiUrl}/client-growth-with-anamnese`);
   ;;}
 
   getCrescimentoClientesAtivos(): Observable<any> {

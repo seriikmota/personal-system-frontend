@@ -1,0 +1,9 @@
+<div class="relatorio-container">
+
+<mat-card class="grafico" style="background: white;" *ngIf="clientesPorMensalidade.length > 0">
+  <h2>Clientes por Mensalidade</h2>
+  <ngx-charts-pie-chart [view]="[450, 350]" [doughnut]="true" [results]="clientesPorMensalidade" [legend]="true"
+    [scheme]="colorScheme" [legendTitle]="'Legenda'">
+  </ngx-charts-pie-chart>
+</mat-card>
+</div>

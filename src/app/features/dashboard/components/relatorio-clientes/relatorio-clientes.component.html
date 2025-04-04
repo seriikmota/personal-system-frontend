@@ -1,28 +1,22 @@
 <div class="relatorio-container">
-<mat-card class="grafico">
-  <h2>Clientes Ativos e Inativos</h2>
-  <ngx-charts-pie-chart [view]="[500, 400]"  [doughnut]="true" [results]="clientesAtivosInativos" [legend]="true" [scheme]="colorScheme"></ngx-charts-pie-chart>
-</mat-card>
+  <mat-card class="grafico grafico-pizza" style="background: white;" *ngIf="clientesAtivosInativos.length > 0">
+    <h2>Clientes Ativos e Inativos</h2>
+    <ngx-charts-pie-chart [view]="[400, 300]" [doughnut]="true" [results]="clientesAtivosInativos" [legend]="true"
+      [scheme]="colorScheme" [legendTitle]="'Legenda'">
+    </ngx-charts-pie-chart>
+  </mat-card>
 
-<mat-divider></mat-divider>
+  <mat-card class="grafico grafico-pizza" style="background: white;" *ngIf="clientesPorIdade.length > 0">
+    <h2>Clientes por Idade</h2>
+    <ngx-charts-pie-chart [view]="[400, 300]" [doughnut]="true" [results]="clientesPorIdade" [legend]="true"
+      [scheme]="colorScheme" [legendTitle]="'Legenda'">
+    </ngx-charts-pie-chart>
+  </mat-card>
 
-<mat-card class="grafico">
-  <h2>Clientes por Idade</h2>
-  <ngx-charts-pie-chart  [doughnut]="true" [view]="[500,400]" [results]="clientesPorIdade" [legend]= "true"  [scheme]="colorScheme"></ngx-charts-pie-chart>
-</mat-card>
-
-<mat-divider></mat-divider>
-
-<mat-card class="grafico">
-  <h2>Clientes por Mensalidade</h2>
-  <ngx-charts-pie-chart  [doughnut]="true" [view]="[500,400]" [results]="clientesPorMensalidade" [legend]= "true"  [scheme]="colorScheme"></ngx-charts-pie-chart>
-</mat-card>
-
-<mat-divider></mat-divider>
-
-<mat-card class="grafico">
-  <h2>Clientes por Sexo</h2>
-  <ngx-charts-pie-chart  [doughnut]="true" [view]="[500,400]" [results]="clientesPorSexo" [legend]= "true"  [scheme]="colorScheme"></ngx-charts-pie-chart>
-</mat-card>
-
+  <mat-card class="grafico grafico-pizza" style="background: white;" *ngIf="clientesPorSexo.length > 0">
+    <h2>Clientes por Sexo</h2>
+    <ngx-charts-pie-chart [view]="[400, 300]" [doughnut]="true" [results]="clientesPorSexo" [legend]="true"
+      [scheme]="colorScheme" [legendTitle]="'Legenda'">
+    </ngx-charts-pie-chart>
+  </mat-card>
 </div>

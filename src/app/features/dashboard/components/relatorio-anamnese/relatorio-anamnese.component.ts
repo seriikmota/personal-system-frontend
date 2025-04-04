@@ -18,15 +18,32 @@ export class RelatorioAnamneseComponent implements OnInit {
   clientesComSemAnamnese: any[] = [];
   crescimentoClientesAnamnese: any[] = [];
 
+  colorScheme = 'forest';
+
   constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
     this.dashboardService.getClientesComSemAnamnese().subscribe(data => {
-      this.clientesComSemAnamnese = data;
+      this.clientesComSemAnamnese = [
+        { name: 'Com Anamnese', value: data.clientsWithAnamnese },
+        { name: 'Sem Anamnese', value: data.clientsWithoutAnamnese }
+      ];
     });
 
     this.dashboardService.getCrescimentoClientesAnamnese().subscribe(data => {
-      this.crescimentoClientesAnamnese = data;
+      this.crescimentoClientesAnamnese = this.transformData(data);
     });
+  }
+
+  transformData(data: any[]): any[] {
+    return [
+      {
+        name: 'Clientes',
+        series: data.map(item => ({
+          name: item.date,
+          value: item.clientCount
+        }))
+      }
+    ];
   }
 }

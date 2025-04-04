@@ -6,6 +6,7 @@ import { RelatorioAnamneseComponent } from '../components/relatorio-anamnese/rel
 import { RelatorioAniversariantesComponent } from '../components/relatorio-aniversariantes/relatorio-aniversariantes.component';
 import { RelatorioAtivosComponent } from '../components/relatorio-ativos/relatorio-ativos.component';
 import { RelatorioClientesComponent } from '../components/relatorio-clientes/relatorio-clientes.component';
+import { RelatorioFaturamentoComponent } from '../components/relatorio-faturamento/relatorio-faturamento.component';
 
 @Component({
   selector: 'app-dashboard-container',
@@ -16,8 +17,9 @@ import { RelatorioClientesComponent } from '../components/relatorio-clientes/rel
     RelatorioAnamneseComponent,
     RelatorioAniversariantesComponent,
     RelatorioAtivosComponent,
-    RelatorioClientesComponent
-  ],
+    RelatorioClientesComponent,
+    RelatorioFaturamentoComponent
+],
   templateUrl: './dashboard-container.component.html',
   styleUrl: './dashboard-container.component.scss'
 })

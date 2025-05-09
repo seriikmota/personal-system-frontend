@@ -76,10 +76,13 @@ export class PacienteFormComponent implements OnInit{
 
 
   ngOnInit() {
+    const birthDateStr = this.data?.birthDate;
+    const birthDate = birthDateStr ? new Date(birthDateStr + 'T00:00:00') : '';
+
     this.firstFormGroup = this._formBuilder.group({
       name: [this.data?.name || '', [Validators.required]],
       cpf: [this.data?.cpf || '', [Validators.required]],
-      birthDate: [this.data?.birthDate || '', [Validators.required]],
+      birthDate: [birthDate || '', [Validators.required]],
       gender: [this.data?.gender || '', [Validators.required]],
       maritalStatus: [this.data?.maritalStatus || '', [Validators.required]],
       email: [this.data?.email || '', [Validators.required]],

@@ -1,0 +1,38 @@
+.relatorio-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.grafico {
+  position: relative;
+  padding: 20px;
+  flex: 1;
+  min-width: 300px;
+}
+
+.grafico-barra {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.grafico-barra h2 {
+  margin-bottom: 10px;
+}
+
+.grafico-barra .info {
+  position: absolute;
+  top: 10px;
+  font-size: 12px;
+  color: #555;
+}
+
+.grafico-barra .info.left {
+  left: 10px;
+}
+
+.grafico-barra .info.right {
+  right: 10px;
+}

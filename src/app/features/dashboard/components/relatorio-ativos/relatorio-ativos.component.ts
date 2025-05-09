@@ -16,6 +16,9 @@ import { MatCardModule } from '@angular/material/card';
 })
 export class RelatorioAtivosComponent implements OnInit {
   clientesPorCidade: any[] = [];
+  totalClasses: number = 0;
+  totalProfit: number = 0;
+  monthlyProfitByPatient: any[] = [];
 
   colorScheme = 'forest';
 
@@ -30,6 +33,18 @@ export class RelatorioAtivosComponent implements OnInit {
     }, error => {
       console.error('Erro ao carregar clientes por cidade:', error);
       this.clientesPorCidade = [];
+    });
+
+    this.dashboardService.getLucroMensalPorPaciente().subscribe(data => {
+      this.totalClasses = data.totalClasses;
+      this.totalProfit = data.totalProfitEstimate;
+      this.monthlyProfitByPatient = data.patientProfits.map((item: { patientName: string; totalClasses: number; profitEstimate: number; }) => ({
+        name: `${item.patientName} - ${item.totalClasses} aulas`,
+        value: item.profitEstimate
+      }));
+    }, error => {
+      console.error('Erro ao carregar lucro mensal por paciente:', error);
+      this.monthlyProfitByPatient = [];
     });
   }
 }

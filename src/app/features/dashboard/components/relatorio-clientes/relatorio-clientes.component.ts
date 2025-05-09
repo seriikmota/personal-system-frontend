@@ -61,7 +61,7 @@ export class RelatorioClientesComponent implements OnInit {
     this.dashboardService.getClientesPorIdade().subscribe((data: ClientePorIdade[] | null) => {
       this.clientesPorIdade = data
         ? data.map(item => ({
-            name: item.ageRange || 'Desconhecido',
+            name: item.age || 'Desconhecido',
             value: item.clientCount || 0
           }))
         : [];

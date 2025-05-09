@@ -1,14 +1,14 @@
 <div class="relatorio-container">
-  <mat-card class="grafico grafico-pizza" style="background: white;" *ngIf="clientesComSemAnamnese.length > 0">
+  <mat-card class="grafico grafico-pizza" *ngIf="clientesComSemAnamnese.length > 0">
     <h2>Clientes com e sem Anamnese</h2>
     <ngx-charts-pie-chart [view]="[530, 300]" [doughnut]="true" [results]="clientesComSemAnamnese"
       [legend]="true" [scheme]="colorScheme" [legendTitle]="'Legenda'"></ngx-charts-pie-chart>
   </mat-card>
 
-  <mat-card class="grafico grafico-linha" style="background: white;" *ngIf="crescimentoClientesAnamnese.length > 0">
+  <mat-card class="grafico grafico-linha" *ngIf="crescimentoClientesAnamnese.length > 0">
     <h2>Crescimento de Clientes com Anamnese</h2>
     <ngx-charts-line-chart
-    [view]="[700, 300]"
+    [view]="[650, 300]"
     [scheme]="colorScheme"
     [results]="crescimentoClientesAnamnese"
     [gradient]="false"

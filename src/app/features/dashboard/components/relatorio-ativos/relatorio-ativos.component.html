@@ -1,7 +1,14 @@
 <div class="relatorio-container">
-  <mat-card class="grafico grafico-barra" style="background: white;">
+  <mat-card class="grafico grafico-barra">
     <h2>Clientes por Cidade</h2>
     <ngx-charts-bar-vertical [view]="[500, 300]" [results]="clientesPorCidade" [legend]="true"
       [scheme]="colorScheme" [legendTitle]="'Legenda'"></ngx-charts-bar-vertical>
+  </mat-card>
+  <mat-card class="grafico grafico-barra">
+    <div class="info left">Total de Aulas: {{ totalClasses }}</div>
+    <div class="info right">Lucro Total: {{ totalProfit | currency:'BRL':'symbol':'1.2-2' }}</div>
+    <h2>Lucro Mensal por Paciente</h2>
+    <ngx-charts-pie-chart [view]="[500, 300]" [results]="monthlyProfitByPatient" [legend]="true"
+      [scheme]="colorScheme" [legendTitle]="'Legenda'"></ngx-charts-pie-chart>
   </mat-card>
 </div>

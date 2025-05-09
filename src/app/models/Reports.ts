@@ -9,7 +9,7 @@ export interface ClientePorMensalidade {
 }
 
 export interface ClientePorIdade {
-  ageRange: string;
+  age: string;
   clientCount: number;
 }
 

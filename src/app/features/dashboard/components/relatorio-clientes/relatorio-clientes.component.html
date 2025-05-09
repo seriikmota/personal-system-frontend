@@ -1,19 +1,19 @@
 <div class="relatorio-container">
-  <mat-card class="grafico grafico-pizza" style="background: white;" *ngIf="clientesAtivosInativos.length > 0">
+  <mat-card class="grafico grafico-pizza" *ngIf="clientesAtivosInativos.length > 0">
     <h2>Clientes Ativos e Inativos</h2>
     <ngx-charts-pie-chart [view]="[530, 300]" [doughnut]="true" [results]="clientesAtivosInativos" [legend]="true"
       [scheme]="colorScheme" [legendTitle]="'Legenda'">
     </ngx-charts-pie-chart>
   </mat-card>
 
-  <mat-card class="grafico grafico-pizza" style="background: white;" *ngIf="clientesPorIdade.length > 0">
+  <mat-card class="grafico grafico-pizza" *ngIf="clientesPorIdade.length > 0">
     <h2>Clientes por Idade</h2>
     <ngx-charts-pie-chart [view]="[530, 300]" [doughnut]="true" [results]="clientesPorIdade" [legend]="true"
       [scheme]="colorScheme" [legendTitle]="'Legenda'">
     </ngx-charts-pie-chart>
   </mat-card>
 
-  <mat-card class="grafico grafico-pizza" style="background: white;" *ngIf="clientesPorSexo.length > 0">
+  <mat-card class="grafico grafico-pizza" *ngIf="clientesPorSexo.length > 0">
     <h2>Clientes por Sexo</h2>
     <ngx-charts-pie-chart [view]="[530, 300]" [doughnut]="true" [results]="clientesPorSexo" [legend]="true"
       [scheme]="colorScheme" [legendTitle]="'Legenda'">

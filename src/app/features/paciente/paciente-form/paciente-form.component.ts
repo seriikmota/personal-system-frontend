@@ -168,21 +168,21 @@ export class PacienteFormComponent implements OnInit{
     if (this.data?.id) {
       this._pacienteService.editarPaciente(this.data.id, paciente).subscribe({
         next: () => {
-          console.log('Paciente atualizado com sucesso');
+          console.log('Cliente atualizado com sucesso');
           this._dialogRef.close(true);
         },
         error: (err) => {
-          console.error('Erro ao atualizar paciente', err);
+          console.error('Erro ao atualizar cliente', err);
         }
       });
     } else {
       this._pacienteService.incluirPaciente(paciente).subscribe({
         next: () => {
-          console.log('Paciente criado com sucesso');
+          console.log('Cliente criado com sucesso');
           this._dialogRef.close(true);
         },
         error: (err) => {
-          console.error('Erro ao criar paciente', err);
+          console.error('Erro ao criar cliente', err);
         }
       });
     }

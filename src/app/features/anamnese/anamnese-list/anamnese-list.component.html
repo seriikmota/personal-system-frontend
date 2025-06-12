@@ -7,8 +7,8 @@
 
     <div class="div-search">
       <mat-form-field subscriptSizing="dynamic" class="form-search">
-        <mat-label>Nome do Paciente</mat-label>
-        <input matInput placeholder="Nome do Paciente" [(ngModel)]="searchPatientName">
+        <mat-label>Nome do Cliente</mat-label>
+        <input matInput placeholder="Nome do Cliente" [(ngModel)]="searchPatientName">
         <button matSuffix mat-icon-button (click)="pesquisarPorPatientName()">
           <mat-icon>search</mat-icon>
         </button>
@@ -39,7 +39,7 @@
   <section class="table-section">
     <table mat-table [dataSource]="dataSource" matSort (matSortChange)="listarAnamneses()">
       <ng-container matColumnDef="patientName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome do Paciente</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome do Cliente</th>
         <td mat-cell *matCellDef="let element">{{ element.patient.name }}</td>
       </ng-container>
 

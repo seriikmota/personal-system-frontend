@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AnamneseService {
-  private apiUrl = 'http://localhost:8080/api/v1/anamnese';
+  private apiUrl = 'https://backend.saulopersonal.com.br/api/v1/anamnese';
 
   private _http = inject(HttpClient);
 

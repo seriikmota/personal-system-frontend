@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class PacienteService {
   //private apiUrl = 'https://13.61.16.36:8080/api/v1/patient';
-  private apiUrl = 'http://localhost:8080/api/v1/patient';
+  private apiUrl = 'https://backend.saulopersonal.com.br/api/v1/patient';
 
   private _http = inject(HttpClient);
 

@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class DashboardService {
-  private apiUrl = 'http://localhost:8080/api/v1/reports';
+  private apiUrl = 'https://backend.saulopersonal.com.br/api/v1/reports';
 
   constructor(private http: HttpClient) {}
 
@@ -49,7 +49,7 @@ export class DashboardService {
   getLucroMensalPorPaciente(): Observable<any> {
     return this.http.get(`${this.apiUrl}/monthly-profit-estimate`);
   }
-  
+
   exportarParaExcel(): Observable<Blob> {
     const url = `${this.apiUrl}/exportar/excel`;
 

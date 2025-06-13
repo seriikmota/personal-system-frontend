@@ -11,7 +11,7 @@ export class AuthService {
   private _http = inject(HttpClient);
 
   //private _auth: string = 'https://13.61.16.36:8080/api/v1/auth';
-  private _auth: string = 'http://localhost:8080/api/v1/auth';
+  private _auth: string = 'https://backend.saulopersonal.com.br/api/v1/auth';
 
   constructor() { }
 

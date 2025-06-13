@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
   providedIn: 'root'
 })
 export class MensageiroService {
-  private apiUrl = 'http://localhost:8080/api/v1/evolution';
+  private apiUrl = 'https://backend.saulopersonal.com.br/api/v1/evolution';
 
   private _http = inject(HttpClient);
 

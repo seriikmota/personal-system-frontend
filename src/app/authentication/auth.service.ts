@@ -37,4 +37,16 @@ export class AuthService {
       headers: headers,
     });
   }
+
+  sendRecoveryCode(email: string): Observable<any> {
+    return this._http.get<any>(`${this._auth}/forgot-password?email=${email}`);
+  }
+
+  verifyCode(email: string, code: string): Observable<any> {
+    return this._http.get<any>(`${this._auth}/verify-code?email=${email}&code=${code}`);
+  }
+
+  changePassword(email: string, code: string, password: string): Observable<any> {
+    return this._http.get<any>(`${this._auth}/change-password?email=${email}&code=${code}&password=${password}`);
+  }
 }

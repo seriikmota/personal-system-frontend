@@ -19,4 +19,16 @@ export class LoginService {
   public refresh(refreshToken: string): Observable<CredentialDTO> {
     return this._authService.refresh(refreshToken);
   }
+
+  public sendRecoveryCode(email: string): Observable<CredentialDTO> {
+    return this._authService.sendRecoveryCode(email);
+  }
+
+  public verifyCode(email: string, code: string): Observable<CredentialDTO> {
+    return this._authService.verifyCode(email, code);
+  }
+
+  public changePassword(email: string, code: string, password: string): Observable<CredentialDTO> {
+    return this._authService.changePassword(email, code, password);
+  }
 }

@@ -11,6 +11,8 @@ import {CredentialDTO} from '../../../models/CredentialDTO';
 import {Router} from '@angular/router';
 import {LoginService} from '../login.service';
 import {SecurityService} from '../../../authentication/security/security.service';
+import {ForgotPasswordComponent} from '../forgot-password/forgot-password.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login-form',
@@ -43,6 +45,7 @@ export class LoginFormComponent implements OnInit{
   private _service = inject(LoginService);
   private _securityService = inject(SecurityService);
   private _router = inject(Router);
+  private _dialog = inject(MatDialog);
 
   loginForm!: FormGroup;
 
@@ -60,6 +63,12 @@ export class LoginFormComponent implements OnInit{
         this._router.navigate(['/pacienteList']);
       });
     }
+  }
+
+  openForgotPasswordModal(): void {
+    this._dialog.open(ForgotPasswordComponent, {
+      width: '400px'
+    });
   }
 
   public handleError = (controlName: string, errorName: string) => {

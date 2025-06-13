@@ -29,6 +29,9 @@
         <section class="section-button">
           <button mat-flat-button color="primary" type="submit" [disabled]="loginForm.invalid">Entrar</button>
         </section>
+        <section class="section-button">
+          <button mat-button color="accent" type="button" (click)="openForgotPasswordModal()">Esqueci minha senha</button>
+        </section>
       </form>
     </mat-card-content>
   </mat-card>

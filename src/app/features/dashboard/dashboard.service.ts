@@ -49,4 +49,11 @@ export class DashboardService {
   getLucroMensalPorPaciente(): Observable<any> {
     return this.http.get(`${this.apiUrl}/monthly-profit-estimate`);
   }
+  
+  exportarParaExcel(): Observable<Blob> {
+    const url = `${this.apiUrl}/exportar/excel`;
+
+    return this.http.get(url, { responseType: 'blob' });
+  }
+
 }

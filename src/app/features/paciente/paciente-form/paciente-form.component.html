@@ -1,11 +1,11 @@
-<h2 mat-dialog-title>Cadastrar Paciente</h2>
+<h2 mat-dialog-title>Cadastrar Cliente</h2>
 <mat-dialog-content>
   <mat-stepper #stepper>
     <mat-step [stepControl]="firstFormGroup" errorMessage="Dados da identidade são obrigatórios.">
       <section class="form-container">
         <form [formGroup]="firstFormGroup" class="form-group">
-          <ng-template matStepLabel>Identidade do Paciente</ng-template>
-          <!-- Aqui é o primeiro passo do stepper, onde o usuário irá preencher os dados do paciente.
+          <ng-template matStepLabel>Identidade do Cliente</ng-template>
+          <!-- Aqui é o primeiro passo do stepper, onde o usuário irá preencher os dados do cliente/paciente.
           Está separado de três em três no design -->
           <div class="form-row">
             <mat-form-field>
@@ -80,7 +80,7 @@
     <mat-step [stepControl]="secondFormGroup" errorMessage="Dados do endereço são obrigatórios.">
       <section class="form-container">
         <form [formGroup]="secondFormGroup" class="form-group">
-          <ng-template matStepLabel>Endereço do Paciente</ng-template>
+          <ng-template matStepLabel>Endereço do Cliente</ng-template>
           <!-- Aqui é o segundo passo do stepper, onde o usuário irá preencher os dados de endereço.
           Está separado de três em três no design -->
           <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>

@@ -122,7 +122,7 @@ export class AnamneseListComponent implements AfterViewInit {
         this.pacientesCount = response.totalElements;
       },
       error: (err) => {
-        console.error('Erro ao carregar pacientes:', err);
+        console.error('Erro ao carregar clientes:', err);
       }
     });
   }
@@ -210,7 +210,7 @@ export class AnamneseListComponent implements AfterViewInit {
         this.paginator.length = response.totalElements;
       },
       error: (err) => {
-        console.error('Erro ao buscar por nome do paciente:', err);
+        console.error('Erro ao buscar por nome do cliente:', err);
       },
     });
   }

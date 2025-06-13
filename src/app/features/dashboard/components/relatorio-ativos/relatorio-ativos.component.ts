@@ -43,7 +43,7 @@ export class RelatorioAtivosComponent implements OnInit {
         value: item.profitEstimate
       }));
     }, error => {
-      console.error('Erro ao carregar lucro mensal por paciente:', error);
+      console.error('Erro ao carregar lucro mensal por cliente:', error);
       this.monthlyProfitByPatient = [];
     });
   }

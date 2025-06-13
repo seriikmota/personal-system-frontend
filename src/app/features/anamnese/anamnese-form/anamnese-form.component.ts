@@ -91,7 +91,7 @@ export class AnamneseFormComponent implements OnInit {
         this.pacientes = response.content;
       },
       error: (err) => {
-        console.error('Erro ao carregar pacientes', err);
+        console.error('Erro ao carregar clientes', err);
       }
     });
   }
@@ -134,7 +134,7 @@ export class AnamneseFormComponent implements OnInit {
         }
       },
       error: (err) => {
-        console.error('Erro ao obter dados do paciente', err);
+        console.error('Erro ao obter dados do cliente', err);
       }
     });
   }

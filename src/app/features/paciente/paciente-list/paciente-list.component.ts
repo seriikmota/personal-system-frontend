@@ -97,7 +97,7 @@ export class PacienteListComponent implements AfterViewInit{
   excluirPaciente(pacienteId: number) {
     const dialogRef = this._dialog.open(ConfirmDialogComponent, {
       width: '400px',
-      data: { title: 'Confirmar exclusão?', message: 'Tem certeza que deseja excluir este paciente?\nEsta ação é irreversível' }
+      data: { title: 'Confirmar exclusão?', message: 'Tem certeza que deseja excluir este cliente?\nEsta ação é irreversível' }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -108,7 +108,7 @@ export class PacienteListComponent implements AfterViewInit{
             if (response.totalElements > 0) {
               const dialogRef = this._dialog.open(ConfirmDialogComponent, {
                 width: '400px',
-                data: { title: 'Confirmação Secundária', message: 'Notei que este paciente possui anamnese(s) vinculada(s). Tem certeza que deseja excluir?\n' +
+                data: { title: 'Confirmação Secundária', message: 'Notei que este cliente possui anamnese(s) vinculada(s). Tem certeza que deseja excluir?\n' +
                     'Essa ação excluirá todas as anamneses deste cliente' }
               });
 
@@ -122,7 +122,7 @@ export class PacienteListComponent implements AfterViewInit{
             }
           },
           error: (err) => {
-            console.error('Erro ao verificar anamneses do paciente:', err);
+            console.error('Erro ao verificar anamneses do cliente:', err);
           }
         });
       }
@@ -131,7 +131,7 @@ export class PacienteListComponent implements AfterViewInit{
 
   confirmarExclusaoPaciente(pacienteId: number) {
     this._pacienteService.excluirPaciente(pacienteId).subscribe(() => {
-      console.log('Paciente excluído com sucesso');
+      console.log('Cliente excluído com sucesso');
       this.listarPacientes();
     });
   }

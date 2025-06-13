@@ -7,7 +7,7 @@
   <mat-card class="grafico grafico-barra">
     <div class="info left">Total de Aulas: {{ totalClasses }}</div>
     <div class="info right">Lucro Total: {{ totalProfit | currency:'BRL':'symbol':'1.2-2' }}</div>
-    <h2>Lucro Mensal por Paciente</h2>
+    <h2>Lucro Mensal por Cliente</h2>
     <ngx-charts-pie-chart [view]="[500, 300]" [results]="monthlyProfitByPatient" [legend]="true"
       [scheme]="colorScheme" [legendTitle]="'Legenda'"></ngx-charts-pie-chart>
   </mat-card>

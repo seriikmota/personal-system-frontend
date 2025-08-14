@@ -1,13 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PacienteService {
-  //private apiUrl = 'https://13.61.16.36:8080/api/v1/patient';
-  private apiUrl = 'https://backend.saulopersonal.com.br/api/v1/patient';
+  private apiUrl: string = `${environment.apiUrl}/api/v1/patient`;
 
   private _http = inject(HttpClient);
 

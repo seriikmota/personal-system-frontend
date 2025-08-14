@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DashboardService {
-  private apiUrl = 'https://backend.saulopersonal.com.br/api/v1/reports';
+  private apiUrl: string = `${environment.apiUrl}/api/v1/reports`;
 
   constructor(private http: HttpClient) {}
 

@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {AuthDTO} from '../models/AuthDTO';
 import {Observable} from 'rxjs';
 import {CredentialDTO} from '../models/CredentialDTO';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,7 @@ import {CredentialDTO} from '../models/CredentialDTO';
 export class AuthService {
   private _http = inject(HttpClient);
 
-  //private _auth: string = 'https://13.61.16.36:8080/api/v1/auth';
-  private _auth: string = 'https://backend.saulopersonal.com.br/api/v1/auth';
+  private _auth: string = `${environment.apiUrl}/api/v1/auth`;
 
   constructor() { }
 

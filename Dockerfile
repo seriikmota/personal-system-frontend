@@ -2,7 +2,11 @@
 FROM node:20-alpine AS builder
 
 ARG PKG_MGR=npm
-# REMOVIDO: ENV NODE_ENV=production  # <- isso quebra a instalação de devDeps
+ARG NG_BUILD_CONFIGURATION=production
+ARG APP_API_URL=http://localhost:8080
+
+ENV NG_BUILD_CONFIGURATION=${NG_BUILD_CONFIGURATION}
+ENV APP_API_URL=${APP_API_URL}
 WORKDIR /app
 
 RUN corepack enable || true
@@ -14,20 +18,15 @@ COPY package.json package-lock.json* pnpm-lock.yaml* yarn.lock* ./
 RUN --mount=type=cache,target=/root/.npm \
     --mount=type=cache,target=/root/.yarn \
     --mount=type=cache,target=/root/.pnpm-store \
-    if [ "$PKG_MGR" = "yarn" ]; then yarn --frozen-lockfile; \
-    elif [ "$PKG_MGR" = "pnpm" ]; then pnpm install --frozen-lockfile; \
-    else npm ci --include=dev; fi
+    npm ci --include=dev
 
 COPY . .
 
-# Use o script de build do package.json (recomendado)
-RUN if [ "$PKG_MGR" = "yarn" ]; then yarn build; \
-    elif [ "$PKG_MGR" = "pnpm" ]; then pnpm build; \
-    else npm run build; fi
+RUN npm run build --configuration="$NG_BUILD_CONFIGURATION"
 
 COPY . .
 
-RUN npx ng build --configuration=production
+RUN npx ng build --configuration="$NG_BUILD_CONFIGURATION"
 
 FROM nginx:1.27-alpine AS runtime
 
@@ -38,9 +37,6 @@ COPY infra/nginx.conf /etc/nginx/conf.d/app.conf
 COPY --from=builder /app/dist/*/browser /usr/share/nginx/html
 
 EXPOSE 80
-
-HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
-  CMD wget -qO- http://127.0.0.1/ || exit 1
 
 STOPSIGNAL SIGQUIT
 CMD ["nginx", "-g", "daemon off;"]

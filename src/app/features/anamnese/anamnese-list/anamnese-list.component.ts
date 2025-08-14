@@ -26,9 +26,7 @@ import { ConfirmDialogComponent } from '../../../sharedpages/confirm-dialog/conf
 import { AnamneseDetailsComponent } from '../anamnese-details/anamnese-details.component';
 import {DatePipe, DecimalPipe, NgIf} from '@angular/common';
 import {PacienteService} from '../../paciente/paciente.service';
-import {
-  MatDatepicker,
-  MatDatepickerInput, MatDatepickerModule,
+import {MatDatepickerModule,
   MatDatepickerToggle,
   MatDateRangeInput,
   MatDateRangePicker
@@ -62,7 +60,7 @@ import {MAT_DATE_LOCALE, provideNativeDateAdapter} from '@angular/material/core'
     MatTable,
     MatHeaderCellDef,
     MatDatepickerModule,
-    MatFabButton, NgIf, DecimalPipe, DatePipe, MatDatepickerInput, MatDatepickerToggle, MatDatepicker, ReactiveFormsModule, MatDateRangeInput, MatDateRangePicker,
+    MatFabButton, NgIf, DecimalPipe, DatePipe, MatDatepickerToggle, ReactiveFormsModule, MatDateRangeInput, MatDateRangePicker,
   ],
   providers: [
     DatePipe,

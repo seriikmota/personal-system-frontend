@@ -11,7 +11,7 @@ import {MatStep, MatStepLabel, MatStepper, MatStepperNext, MatStepperPrevious} f
 import {MatFormField, MatFormFieldModule, MatLabel, MatSuffix} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
-import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MAT_DATE_LOCALE, MatOption, provideNativeDateAdapter} from '@angular/material/core';
 import {MatSelect} from '@angular/material/select';
 import {ViaCepService} from '../../../services/via-cep.service';
@@ -37,9 +37,7 @@ import {NgxMaskDirective} from 'ngx-mask';
     MatStepLabel,
     MatStepperPrevious,
     MatLabel,
-    MatDatepicker,
-    MatDatepickerToggle,
-    MatDatepickerInput,
+    MatDatepickerModule,
     MatSuffix,
     MatSelect,
     MatOption,
